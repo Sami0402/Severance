@@ -1,5 +1,10 @@
+import 'package:e_commerce_app/bindings/home_binding.dart';
+import 'package:e_commerce_app/modules/Auth/auth_gate.dart';
+import 'package:e_commerce_app/modules/Home/home_screen.dart';
+import 'package:e_commerce_app/modules/onboard/onboard_screen.dart';
 import 'package:e_commerce_app/modules/splash_screen.dart';
 import 'package:e_commerce_app/utils/constants/routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'firebase_options.dart';
@@ -23,9 +28,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigoAccent),
       ),
-      home: SplashScreen(),
-      initialRoute: Routes.splashScreen,
+      initialBinding: HomeBinding(),
+      home: AuthGate(),
       getPages: getPages,
     );
   }
 }
+
+

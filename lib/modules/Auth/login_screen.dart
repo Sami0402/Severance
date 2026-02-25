@@ -94,7 +94,7 @@ class LoginScreen extends StatelessWidget {
                   text: 'Sign In',
                   onPressed: () {
                      if (_loginformKey.currentState!.validate()) {
-                      controller.signInValidation();
+                      controller.signIn();
                      }
                     }
                   

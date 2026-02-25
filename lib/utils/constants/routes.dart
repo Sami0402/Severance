@@ -36,6 +36,5 @@ final getPages = [
   GetPage(
     name: Routes.homeScreen,
     page: () => HomeScreen(),
-    binding: HomeBinding(),
   ),
 ];

@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
     // Home Controller
     final HomeController controller = Get.find<HomeController>();
     // Retrieve arguments using Get.arguments
-    final String username = Get.arguments;
+    final String? username = Get.arguments;
     return Scaffold(
       backgroundColor: Colors.indigoAccent,
       body: SingleChildScrollView(
@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             SizedBox(height: 35),
             // USERNAME & CART Icon
-            UsernamAndCartIcon(username: username),
+            UsernamAndCartIcon(username: username == null ? 'Nothing' : 'username'),
             SizedBox(height: 35),
             // SEARCHBAR
             Padding(

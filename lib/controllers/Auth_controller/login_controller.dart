@@ -11,7 +11,7 @@ class LoginController extends GetxController {
   final TextEditingController password = TextEditingController();
 
   // For SignIn by Email & Password
-  Future signInValidation() async {
+  Future signIn() async {
     String message = "";
 
     // All fields are valid
