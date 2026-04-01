@@ -1,8 +1,7 @@
-import 'package:e_commerce_app/modules/Auth/googleSignInButton.dart';
-import 'package:e_commerce_app/utils/constants/assets_constant.dart';
+import 'package:e_commerce_app/utils/constants/AppColor.dart';
 import 'package:e_commerce_app/utils/constants/typography.dart';
 import 'package:e_commerce_app/utils/validators/validators.dart';
-import 'package:e_commerce_app/controllers/Auth_controller/register_controller.dart';
+import 'package:e_commerce_app/controllers/Auth_controller/auth_controller.dart';
 import 'package:e_commerce_app/widgets/customTextField.dart';
 import 'package:e_commerce_app/widgets/solidTextButton.dart';
 import 'package:flutter/material.dart';
@@ -10,31 +9,33 @@ import 'package:get/get.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
-  final RegisterController controller = Get.find<RegisterController>();
+
+  final AuthController controller = Get.find<AuthController>();
+  final registerformKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final isMarked = RxBool(true);
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(backgroundColor: Colors.white),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             padding: EdgeInsets.all(20),
             child: Form(
-              key: controller.registerformKey,
+              key: registerformKey,
               child: Column(
                 children: [
                   Align(
                     alignment: AlignmentGeometry.topLeft,
                     child: Text(
-                      "Let's create your account",
-                      style: TypographyPoppins.Bold.copyWith(fontSize: 20),
+                      "Let's \ncreate your account",
+                      style: theme.textTheme.displayLarge,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 25),
                   // FIRST NAME & LAST NAME
                   Row(
                     children: [
@@ -74,13 +75,6 @@ class RegisterScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   customTextField(
-                    validator: Validators.phoneNumber,
-                    hintText: "Phone Number",
-                    controller: controller.phoneNumber,
-                    prefixIcon: Icons.phone_outlined,
-                  ),
-                  SizedBox(height: 20),
-                  customTextField(
                     validator: Validators.signUpPassword,
                     hintText: "Password",
                     controller: controller.password,
@@ -103,7 +97,7 @@ class RegisterScreen extends StatelessWidget {
                       isMarked.value = !isMarked.value;
                     },
                     icon: isMarked.value
-                        ? Icon(Icons.check_box, color: Colors.indigoAccent)
+                        ? Icon(Icons.check_box, color: Appcolor.BLACK)
                         : Icon(Icons.check_box_outline_blank),
                   ),
                 ),
@@ -120,24 +114,14 @@ class RegisterScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             child: solidTextButton(
               text: 'Create Account',
-              onPressed: controller.signUpValidation,
+              onPressed: () {
+                if (registerformKey.currentState!.validate()) {
+                  controller.register();
+                }
+              },
             ),
           ),
           SizedBox(height: 20),
-          // OR SIGN U1N WITH text
-          Align(
-            alignment: AlignmentGeometry.center,
-            child: Text(
-              "Or Sign Up With",
-              style: TypographyPoppins.SemiBold.copyWith(
-                color: Colors.grey,
-                fontSize: 12,
-              ),
-            ),
-          ),
-          SizedBox(height: 10),
-          // GOOGLE logo
-          googleSignInButton(),
         ],
       ),
     );

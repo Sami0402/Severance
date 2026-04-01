@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/controllers/Auth_controller/auth_controller.dart';
 import 'package:e_commerce_app/modules/Home/widgets/CarouselSlider.dart';
 import 'package:e_commerce_app/modules/Home/widgets/PopularCategories.dart';
 import 'package:e_commerce_app/modules/Home/widgets/usernameAndCartIcon.dart';
@@ -13,10 +14,11 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Home Controller
     final HomeController controller = Get.find<HomeController>();
+    final AuthController authController = Get.find<AuthController>();
+
     // Retrieve arguments using Get.arguments
-    final String? username = Get.arguments;
+    // final String? googleUsername = Get.arguments;
     return Scaffold(
       backgroundColor: Colors.indigoAccent,
       body: SingleChildScrollView(
@@ -26,7 +28,11 @@ class HomeScreen extends StatelessWidget {
           children: [
             SizedBox(height: 35),
             // USERNAME & CART Icon
-            UsernamAndCartIcon(username: username == null ? 'Nothing' : 'username'),
+            // UsernamAndCartIcon(
+            //   username: googleUsername == null
+            //       ? authController.userData['FirstName']
+            //       : googleUsername,
+            // ),
             SizedBox(height: 35),
             // SEARCHBAR
             Padding(

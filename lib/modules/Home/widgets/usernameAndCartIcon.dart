@@ -2,13 +2,14 @@ import 'package:e_commerce_app/utils/constants/typography.dart';
 import 'package:flutter/material.dart';
 
 class UsernamAndCartIcon extends StatelessWidget {
-  const UsernamAndCartIcon({
+  UsernamAndCartIcon({
     super.key,
     required this.username,
   });
 
   final String username;
-
+  
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -36,7 +37,8 @@ class UsernamAndCartIcon extends StatelessWidget {
           ),
           Spacer(),
           IconButton(
-            onPressed: () {},
+            onPressed: () async{
+            },
             icon: Icon(Icons.shopping_cart_outlined, color: Colors.white),
           ),
         ],

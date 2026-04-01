@@ -1,4 +1,11 @@
+
+
+import 'package:get/get.dart';
+
 class Validators {
+  
+  
+  
   // FIRST NAME
   static String? firstName(String? value) {
     if (value == null || value.trim().isEmpty) {
@@ -30,22 +37,15 @@ class Validators {
   }
 
   // EMAIL
-  static String? email(String? value) {
+  static String? email(String? value, {String? message}) { 
+    
+
     if (value == null || value.isEmpty) {
       return 'Email is required';
-    }
-    return null;
-  }
-
-  // PHONE NUMBER
-  static String? phoneNumber(String? value) {
-    String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-    RegExp regExp = RegExp(pattern);
-    if (value == null || value.isEmpty) {
-      return 'Please enter a mobile number';
-    } else if (!regExp.hasMatch(value!)) {
-      return 'Please enter a valid mobile number';
-    }
+    } 
+    // else if(error.value == "User already exist"){
+    //   return "User already exist";
+    // }
     return null;
   }
 

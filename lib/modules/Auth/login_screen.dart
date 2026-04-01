@@ -1,9 +1,9 @@
-import 'package:e_commerce_app/modules/Auth/googleSignInButton.dart';
+import 'package:e_commerce_app/controllers/Auth_controller/auth_controller.dart';
+import 'package:e_commerce_app/utils/constants/AppColor.dart';
 import 'package:e_commerce_app/utils/constants/assets_constant.dart';
 import 'package:e_commerce_app/utils/constants/routes.dart';
 import 'package:e_commerce_app/utils/constants/typography.dart';
 import 'package:e_commerce_app/utils/validators/validators.dart';
-import 'package:e_commerce_app/controllers/Auth_controller/login_controller.dart';
 import 'package:e_commerce_app/widgets/customTextField.dart';
 import 'package:e_commerce_app/widgets/solidTextButton.dart';
 import 'package:flutter/material.dart';
@@ -12,38 +12,28 @@ import 'package:get/get.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
-  final LoginController controller = Get.find<LoginController>();
+  final AuthController controller = Get.find<AuthController>();
   final _loginformKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final isMarked = RxBool(true);
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(20),
           child: Form(
             key: _loginformKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(
-                  Images.splashIcon,
-                  height: 180,
-                  alignment: AlignmentGeometry.topLeft,
-                ),
-                Text(
-                  'Welcome back,',
-                  style: TypographyPoppins.Bold.copyWith(fontSize: 25),
-                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.23),
+                Text('Welcome back,', style: theme.textTheme.displayLarge),
                 SizedBox(height: 10),
                 Text(
                   "Discover Limitless Choices and Unmatched Convenience.",
-                  style: TypographyRoboto.Regular.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black.withValues(alpha: 0.7),
-                  ),
+                  style: theme.textTheme.labelSmall!.copyWith(fontSize: 15),
                 ),
                 SizedBox(height: 30),
                 customTextField(
@@ -71,7 +61,7 @@ class LoginScreen extends StatelessWidget {
                           isMarked.value = !isMarked.value;
                         },
                         icon: isMarked.value
-                            ? Icon(Icons.check_box, color: Colors.indigoAccent)
+                            ? Icon(Icons.check_box, color: Appcolor.BLACK)
                             : Icon(Icons.check_box_outline_blank),
                       ),
                     ),
@@ -79,10 +69,13 @@ class LoginScreen extends StatelessWidget {
                     Spacer(),
                     TextButton(
                       onPressed: () => Get.toNamed(Routes.forgotPasswordScreen),
+                      style: theme.textButtonTheme.style!.copyWith(
+                        backgroundColor: WidgetStatePropertyAll(Appcolor.WHITE),
+                      ),
                       child: Text(
                         'Forgot Password?',
                         style: TypographyPoppins.Medium.copyWith(
-                          color: Colors.grey,
+                          color: Appcolor.GREY,
                         ),
                       ),
                     ),
@@ -93,24 +86,23 @@ class LoginScreen extends StatelessWidget {
                 solidTextButton(
                   text: 'Sign In',
                   onPressed: () {
-                     if (_loginformKey.currentState!.validate()) {
-                      controller.signIn();
-                     }
+                    if (_loginformKey.currentState!.validate()) {
+                      controller.login();
                     }
-                  
+                  },
                 ),
                 SizedBox(height: 10),
                 // Create Account Button
                 SizedBox(
-                  height: 45.0,
+                  height: 52.0,
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
                       Get.toNamed(Routes.registerScreen);
                     },
-                    style: ButtonStyle(
+                    style: theme.textButtonTheme.style!.copyWith(
+                      backgroundColor: WidgetStatePropertyAll(Appcolor.WHITE),
                       elevation: WidgetStatePropertyAll(0),
-                      backgroundColor: WidgetStatePropertyAll(Colors.white),
                       shape: WidgetStatePropertyAll(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadiusGeometry.circular(12),
@@ -118,33 +110,17 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                   
                     child: Text(
                       'Create Account',
-                      style: TypographyPoppins.SemiBold.copyWith(
-                        color: Colors.black,
-                        fontSize: 12,
+                      style: TypographyPoppins.Medium.copyWith(
+                        color: Appcolor.BLACK,
                       ),
                     ),
                   ),
                 ),
                 SizedBox(height: 10),
-                // OR SIGN IN WITH text
-                Align(
-                  alignment: AlignmentGeometry.center,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Or Sign In With",
-                      style: TypographyPoppins.SemiBold.copyWith(
-                        color: Colors.grey,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                // GOOGLE logo
-                googleSignInButton(),
+
               ],
             ),
           ),

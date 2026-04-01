@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/utils/constants/AppColor.dart';
 import 'package:e_commerce_app/utils/constants/typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -48,7 +49,7 @@ class customTextField extends StatelessWidget {
                   : borderColor!,
               width: 2,
             ),
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(12),
           ),
           prefixIcon: prefixIcon == null
               ? Container(
@@ -79,7 +80,7 @@ class customTextField extends StatelessWidget {
               : null,
 
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.indigoAccent, width: 2),
+            borderSide: BorderSide(color: Appcolor.BLACK, width: 2),
             borderRadius: BorderRadius.circular(14),
           ),
         ),

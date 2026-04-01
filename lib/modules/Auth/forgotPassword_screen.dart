@@ -1,6 +1,6 @@
+import 'package:e_commerce_app/controllers/Auth_controller/auth_controller.dart';
 import 'package:e_commerce_app/utils/constants/typography.dart';
 import 'package:e_commerce_app/utils/validators/validators.dart';
-import 'package:e_commerce_app/controllers/Auth_controller/login_controller.dart';
 import 'package:e_commerce_app/widgets/customTextField.dart';
 import 'package:e_commerce_app/widgets/solidTextButton.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,8 @@ import 'package:get/get_navigation/get_navigation.dart';
 class Forgotpassword extends StatelessWidget {
   Forgotpassword({super.key});
 
-  final LoginController controller = LoginController();
+  final AuthController controller = AuthController();
+
   final _forgotPasswordFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -69,7 +70,7 @@ class Forgotpassword extends StatelessWidget {
                     text: "Continue",
                     onPressed: () {
                       if (_forgotPasswordFormKey.currentState!.validate()) {
-                        controller.verifyEmail();
+                        // _auth.verifyEmail();
                       }
                     },
                   ),

@@ -15,4 +15,6 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-// TODO build HomeScreen UI
+// TODO In Registration: Need inline error message using validator if user already exist or any other thing.
+
+// TODO Check Login flow.

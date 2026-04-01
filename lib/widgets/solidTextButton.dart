@@ -7,19 +7,13 @@ class solidTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return SizedBox(
-      height: 45.0,
+      height: 55.0,
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: onPressed,
-        style: ButtonStyle(
-          backgroundColor: WidgetStatePropertyAll(Colors.indigoAccent),
-          shape: WidgetStatePropertyAll(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadiusGeometry.circular(12),
-            ),
-          ),
-        ),
+        onPressed: onPressed,     
+        style: theme.textButtonTheme.style,
         child: Text(text, style: TextStyle(color: Colors.white)),
       ),
     );

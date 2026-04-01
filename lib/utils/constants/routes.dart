@@ -1,7 +1,4 @@
-import 'package:e_commerce_app/bindings/home_binding.dart';
-import 'package:e_commerce_app/bindings/login_binding.dart';
-import 'package:e_commerce_app/bindings/register_binding.dart';
-import 'package:e_commerce_app/modules/Auth/forgotPassword.dart';
+import 'package:e_commerce_app/modules/Auth/forgotPassword_screen.dart';
 import 'package:e_commerce_app/modules/Auth/login_screen.dart';
 import 'package:e_commerce_app/modules/Home/home_screen.dart';
 import 'package:e_commerce_app/modules/onboard/onboard_screen.dart';
@@ -25,13 +22,11 @@ final getPages = [
   GetPage(
     name: Routes.loginScreen,
     page: () => LoginScreen(),
-    binding: LoginBinding(),
   ),
   GetPage(name: Routes.forgotPasswordScreen, page: ()=> Forgotpassword()),
   GetPage(
     name: Routes.registerScreen,
     page: () => RegisterScreen(),
-    binding: RegisterBinding(),
   ),
   GetPage(
     name: Routes.homeScreen,
