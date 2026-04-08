@@ -1,8 +1,8 @@
 import "package:e_commerce_app/services/api_service.dart";
 import "package:e_commerce_app/utils/constants/routes.dart";
-import "package:e_commerce_app/utils/validators/validators.dart";
 import "package:flutter/material.dart";
 import "package:get/get.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 class AuthController extends GetxController {
   final TextEditingController firstName = TextEditingController();
@@ -12,18 +12,28 @@ class AuthController extends GetxController {
   final TextEditingController phoneNumber = TextEditingController();
   final TextEditingController password = TextEditingController();
 
-  
+  var emailError = RxnString();
+  var passwordError = RxnString();
+  var isLoggedIn = RxnBool(null);
 
-   // For login with Email & Password
+  // For login with Email & Password
   Future login() async {
-    final result = await apiService.loginUser(
-      email.text,
-      password.text,
-    );
+    final result = await apiService.loginUser(email.text, password.text);
+    final prefs = await SharedPreferences.getInstance();
     if (result["success"]) {
-      Get.offAndToNamed(Routes.homeScreen);
-    } else {
-      throw Exception("Login failed: $result");
+      await prefs.setString("id", result["user"]["id"]);
+      await prefs.setString("email", result["user"]["email"]);
+      await prefs.setString("token", result["token"]);
+      await prefs.setBool("isLoggedIn", true);
+      isLoggedIn.value = true;
+
+      Get.offAndToNamed(Routes.MainScreen);
+    } else if (result["message"] == "User not found!") {
+      passwordError.value = null;
+      emailError.value = result["message"];
+    } else if (result["message"] == "Wrong Password") {
+      emailError.value = null;
+      passwordError.value = result["message"];
     }
   }
 
@@ -37,20 +47,33 @@ class AuthController extends GetxController {
       password.text,
     );
 
+    final prefs = await SharedPreferences.getInstance();
+
     if (result["success"]) {
-      Get.offAndToNamed(Routes.homeScreen);
+      await prefs.setBool("isLoggedIn", true);
+      await prefs.setString("id", result["user"]["id"]);
+      await prefs.setString("id", result["user"]["firstName"]);
+      await prefs.setString("id", result["user"]["lastName"]);
+      await prefs.setString("id", result["user"]["username"]);
+      await prefs.setString("id", result["user"]["email"]);
+      Get.offAndToNamed(Routes.MainScreen);
     } else if (result["message"] == "User already exist") {
-      Validators.email(email.text, message: "User already exist");
-    }
-    else {
-      throw Exception("Register failed: $result");
+      emailError.value = result["message"];
     }
   }
 
+  Future<void> checkAuth() async {
+    final prefs = await SharedPreferences.getInstance();
+    isLoggedIn.value = prefs.getBool("isLoggedIn") ?? false;
+  }
 
+  @override
+  void onReady() {
+    checkAuth();
+    super.onReady();
+  }
 
-
-   @override
+  @override
   void onClose() {
     firstName.dispose();
     lastName.dispose();
@@ -58,6 +81,8 @@ class AuthController extends GetxController {
     email.dispose();
     phoneNumber.dispose();
     password.dispose();
+    emailError.close();
+    passwordError.close;
     super.onClose();
   }
 }

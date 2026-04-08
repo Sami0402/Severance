@@ -10,20 +10,25 @@ import 'package:get/get.dart';
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
 
-  final AuthController controller = Get.find<AuthController>();
+  final AuthController controller = AuthController();
   final registerformKey = GlobalKey<FormState>();
-
+  final isMarked = RxBool(true);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isMarked = RxBool(true);
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: Icon(Icons.arrow_back_ios_new_sharp),
+        ),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Form(
               key: registerformKey,
               child: Column(
@@ -32,12 +37,13 @@ class RegisterScreen extends StatelessWidget {
                     alignment: AlignmentGeometry.topLeft,
                     child: Text(
                       "Let's \ncreate your account",
-                      style: theme.textTheme.displayLarge,
+                      style: TypographyPoppins.displayMedium,
                     ),
                   ),
-                  SizedBox(height: 25),
+                  SizedBox(height: 20),
                   // FIRST NAME & LAST NAME
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         child: customTextField(
@@ -67,11 +73,14 @@ class RegisterScreen extends StatelessWidget {
                     prefixIcon: Icons.person_add_outlined,
                   ),
                   SizedBox(height: 20),
-                  customTextField(
-                    validator: Validators.email,
-                    hintText: "E-Mail",
-                    controller: controller.email,
-                    prefixIcon: Icons.mail_outlined,
+                  Obx(
+                    () => customTextField(
+                      validator: Validators.email,
+                      hintText: "E-Mail",
+                      controller: controller.email,
+                      prefixIcon: Icons.mail_outlined,
+                      errorText: controller.emailError.value,
+                    ),
                   ),
                   SizedBox(height: 20),
                   customTextField(
@@ -114,9 +123,9 @@ class RegisterScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             child: solidTextButton(
               text: 'Create Account',
-              onPressed: () {
+              onPressed: () async {
                 if (registerformKey.currentState!.validate()) {
-                  controller.register();
+                  await controller.register();
                 }
               },
             ),

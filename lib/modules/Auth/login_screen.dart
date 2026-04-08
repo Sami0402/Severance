@@ -1,6 +1,5 @@
 import 'package:e_commerce_app/controllers/Auth_controller/auth_controller.dart';
 import 'package:e_commerce_app/utils/constants/AppColor.dart';
-import 'package:e_commerce_app/utils/constants/assets_constant.dart';
 import 'package:e_commerce_app/utils/constants/routes.dart';
 import 'package:e_commerce_app/utils/constants/typography.dart';
 import 'package:e_commerce_app/utils/validators/validators.dart';
@@ -29,28 +28,34 @@ class LoginScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: MediaQuery.of(context).size.height * 0.23),
-                Text('Welcome back,', style: theme.textTheme.displayLarge),
+                Text('Welcome back,', style: TypographyPoppins.displayMedium),
                 SizedBox(height: 10),
                 Text(
                   "Discover Limitless Choices and Unmatched Convenience.",
-                  style: theme.textTheme.labelSmall!.copyWith(fontSize: 15),
+                  style: TypographyPoppins.labelSmall,
                 ),
                 SizedBox(height: 30),
-                customTextField(
-                  validator: Validators.email,
-                  hintText: "E-Mail",
-                  prefixIcon: Icons.mail_outlined,
-                  controller: controller.email,
+                Obx(
+                  () => customTextField(
+                    validator: Validators.email,
+                    hintText: "E-Mail",
+                    prefixIcon: Icons.mail_outlined,
+                    controller: controller.email,
+                    errorText: controller.emailError.value,
+                  ),
                 ),
                 SizedBox(height: 20),
-                customTextField(
-                  validator: Validators.signInPassword,
-                  hintText: "Password",
-                  controller: controller.password,
-                  prefixIcon: Icons.lock_reset_sharp,
-                  isObsecure: true,
-                  showSufixIcon: true,
-                  suffixIcon: Icons.visibility_outlined,
+                Obx(
+                  () => customTextField(
+                    validator: Validators.signInPassword,
+                    hintText: "Password",
+                    controller: controller.password,
+                    prefixIcon: Icons.lock_reset_sharp,
+                    isObsecure: true,
+                    showSufixIcon: true,
+                    suffixIcon: Icons.visibility_outlined,
+                    errorText: controller.passwordError.value,
+                  ),
                 ),
                 SizedBox(height: 10),
                 Row(
@@ -85,9 +90,9 @@ class LoginScreen extends StatelessWidget {
                 // SIGN IN Button
                 solidTextButton(
                   text: 'Sign In',
-                  onPressed: () {
+                  onPressed: () async {
                     if (_loginformKey.currentState!.validate()) {
-                      controller.login();
+                      await controller.login();
                     }
                   },
                 ),
@@ -110,7 +115,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                   
+
                     child: Text(
                       'Create Account',
                       style: TypographyPoppins.Medium.copyWith(
@@ -120,7 +125,6 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10),
-
               ],
             ),
           ),

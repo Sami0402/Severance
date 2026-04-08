@@ -39,6 +39,8 @@ dependencies:
   flutter_svg: ^2.2.1
   fluttertoast: ^9.0.0
   http: ^1.6.0
+  shared_preferences: ^2.5.5
+  custom_rating_bar: ^3.0.0
 
 
 dev_dependencies:

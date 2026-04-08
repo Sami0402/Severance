@@ -1,18 +1,17 @@
-
-
+import 'package:e_commerce_app/controllers/Auth_controller/auth_controller.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Validators {
-  
-  
-  
+class Validators extends GetxController {
+  final AuthController controller = AuthController();
+
   // FIRST NAME
   static String? firstName(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'First Name is required';
     }
     if (value.length < 3) {
-      return 'Name must be at least 3 charachters';
+      return 'Name must be at least \n3 charachters';
     }
     return null;
   }
@@ -23,7 +22,7 @@ class Validators {
       return 'Last Name is required';
     }
     if (value.length < 3) {
-      return 'Name must be at least 3 charachters';
+      return 'Name must be at least \n3 charachters';
     }
     return null;
   }
@@ -37,15 +36,11 @@ class Validators {
   }
 
   // EMAIL
-  static String? email(String? value, {String? message}) { 
-    
-
+  static String? email(String? value) {
     if (value == null || value.isEmpty) {
       return 'Email is required';
-    } 
-    // else if(error.value == "User already exist"){
-    //   return "User already exist";
-    // }
+    }
+
     return null;
   }
 

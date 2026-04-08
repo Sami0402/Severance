@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/utils/constants/AppColor.dart';
 import 'package:e_commerce_app/utils/constants/typography.dart';
+import 'package:e_commerce_app/utils/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -17,6 +18,7 @@ class customTextField extends StatelessWidget {
     this.svgPicture,
     this.borderColor = null,
     this.validator,
+    this.errorText,
   });
   final String hintText;
   final IconData? prefixIcon;
@@ -28,6 +30,7 @@ class customTextField extends StatelessWidget {
   Color? borderColor;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +43,8 @@ class customTextField extends StatelessWidget {
           filled: true,
           fillColor: Colors.white,
           hintText: hintText,
+          errorText: errorText,
+          errorStyle: TextStyle(fontFamily: AppTheme.POPPINS),
           hintStyle: TypographyPoppins.Bold.copyWith(color: Colors.grey[600]),
           border: OutlineInputBorder(
             borderSide: BorderSide(
