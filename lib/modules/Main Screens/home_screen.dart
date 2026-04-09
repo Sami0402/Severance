@@ -3,6 +3,7 @@ import 'package:e_commerce_app/utils/constants/AppColor.dart';
 import 'package:e_commerce_app/utils/constants/assets_constant.dart';
 import 'package:e_commerce_app/utils/constants/routes.dart';
 import 'package:e_commerce_app/utils/constants/typography.dart';
+import 'package:e_commerce_app/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
@@ -15,8 +16,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig.init(context);
+
     final MainScreenController controller = Get.find<MainScreenController>();
-    final ThemeData theme = Theme.of(context);
 
     return SafeArea(
       child: Stack(
@@ -26,12 +28,16 @@ class HomeScreen extends StatelessWidget {
 
           // TITLE
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 18),
+            padding: EdgeInsets.symmetric(
+              horizontal: SizeConfig.screenWidth * 0.05,
+              vertical: SizeConfig.screenHeight * 0.04,
+            ),
             child: Text(
               "Athletics Shoes\nCollection",
               style: TypographyPoppins.displayLarge.copyWith(
                 color: Appcolor.WHITE,
-                fontSize: MediaQuery.sizeOf(context).width * 0.09,
+                fontSize: SizeConfig.screenWidth * 0.09,
+                height: 1.1,
               ),
             ),
           ),
@@ -41,7 +47,7 @@ class HomeScreen extends StatelessWidget {
               // CATEGORY SCROLLER / TabBar
               Padding(
                 padding: EdgeInsetsGeometry.only(
-                  top: MediaQuery.sizeOf(context).height * 0.15,
+                  top: SizeConfig.screenHeight * 0.18,
                 ),
                 child: TabBar(
                   controller: controller.tabController,
@@ -51,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                     fontSize: 23,
                   ),
                   tabAlignment: TabAlignment.start,
-                  padding: EdgeInsets.only(left: 10),
+                  padding: EdgeInsets.only(left: SizeConfig.screenWidth * 0.02),
                   dividerColor: Colors.transparent,
                   indicatorColor: Colors.transparent,
 
@@ -63,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: SizeConfig.screenHeight * 0.009),
               // TabBarView
               Expanded(
                 child: Container(
@@ -76,10 +82,11 @@ class HomeScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
 
                         children: [
-                          // LARGE LIST VIEW
+                          // LARGE SHOE CARDS
                           SizedBox(
-                            height: MediaQuery.sizeOf(context).height * 0.40,
+                            height: MediaQuery.sizeOf(context).height * 0.42,
                             child: ListView.builder(
+                              clipBehavior: Clip.none,
                               itemCount: 3,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
@@ -88,13 +95,26 @@ class HomeScreen extends StatelessWidget {
                                     Get.toNamed(Routes.productDetail);
                                   },
                                   child: Container(
-                                    margin: EdgeInsets.only(right: 18),
-                                    width:
+                                    margin: EdgeInsets.only(right: 30),
+                                    height:
                                         MediaQuery.sizeOf(context).height *
-                                        0.30,
+                                        0.40,
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.78,
+
                                     decoration: BoxDecoration(
                                       color: Colors.white,
-                                      borderRadius: BorderRadius.circular(15),
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withValues(
+                                            alpha: 0.2,
+                                          ),
+                                          spreadRadius: 4,
+                                          blurRadius: 0,
+                                          offset: Offset(5, 3),
+                                        ),
+                                      ],
                                     ),
                                     child: Column(
                                       crossAxisAlignment:
@@ -102,16 +122,31 @@ class HomeScreen extends StatelessWidget {
                                       children: [
                                         Stack(
                                           children: [
-                                            ClipRRect(
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(15),
-                                                topRight: Radius.circular(15),
-                                              ),
-                                              child: Image.asset(
-                                                Images.sample1,
+                                            // IMAGE
+                                            SizedBox(
+                                              height:
+                                                  MediaQuery.sizeOf(
+                                                    context,
+                                                  ).height *
+                                                  0.30,
+                                              width:
+                                                  MediaQuery.sizeOf(
+                                                    context,
+                                                  ).width *
+                                                  0.90,
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(8),
+                                                  topRight: Radius.circular(8),
+                                                ),
+
+                                                child: Image.asset(
+                                                  Images.sample1,
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
                                             ),
-                                            //
+                                            // LIKE ICON
                                             Positioned(
                                               right: 10,
                                               top: 10,
@@ -126,13 +161,15 @@ class HomeScreen extends StatelessWidget {
                                                   icon: controller.isLiked.value
                                                       ? Icon(
                                                           Icons.favorite,
-                                                          color: Colors.pink,
+                                                          color: Colors.black,
                                                           size: 24,
                                                         )
                                                       : Icon(
                                                           Icons
                                                               .favorite_border_outlined,
-                                                          color: Appcolor.GREY,
+                                                          color: Colors
+                                                              .grey
+                                                              .shade600,
                                                           size: 24,
                                                         ),
                                                 ),
@@ -151,7 +188,7 @@ class HomeScreen extends StatelessWidget {
                                                       MediaQuery.of(
                                                         context,
                                                       ).size.width *
-                                                      0.6,
+                                                      0.8,
                                                   child: Text(
                                                     "Ultraboost Shoes",
                                                     style: TypographyPoppins
@@ -241,12 +278,12 @@ class HomeScreen extends StatelessWidget {
                                   margin: EdgeInsets.only(right: 22),
 
                                   width:
-                                      MediaQuery.sizeOf(context).width * 0.32,
+                                      MediaQuery.sizeOf(context).width * 0.28,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(18),
+                                    borderRadius: BorderRadius.circular(15),
                                   ),
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(18),
+                                    borderRadius: BorderRadius.circular(15),
                                     child: Image.asset(
                                       Images.sample2,
                                       fit: BoxFit.cover,

@@ -1,12 +1,8 @@
 import 'package:e_commerce_app/controllers/main_screen_controller.dart';
-import 'package:e_commerce_app/modules/Main%20Screens/search_screen.dart';
 import 'package:e_commerce_app/utils/constants/AppColor.dart';
-import 'package:e_commerce_app/utils/constants/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
@@ -66,6 +62,25 @@ class CustomBottomNavBar extends StatelessWidget {
                 },
                 child: controller.selectedIndex.value == 2
                     ? Icon(
+                        Icons.favorite_outlined,
+                        color: Appcolor.WHITE,
+                        size: 30,
+                      )
+                    : Icon(
+                        Icons.favorite_outline,
+                        color: Appcolor.WHITE,
+                        size: 30,
+                      ),
+              ),
+            ),
+            Obx(
+              () => GestureDetector(
+                onTap: () {
+                  controller.selectedIndex.value = 3;
+                  controller.nextPage(3);
+                },
+                child: controller.selectedIndex.value == 3
+                    ? Icon(
                         Icons.shopping_basket_rounded,
                         color: Appcolor.WHITE,
                         size: 30,
@@ -80,10 +95,10 @@ class CustomBottomNavBar extends StatelessWidget {
             Obx(
               () => GestureDetector(
                 onTap: () {
-                  controller.selectedIndex.value = 3;
-                  controller.nextPage(3);
+                  controller.selectedIndex.value = 4;
+                  controller.nextPage(4);
                 },
-                child: controller.selectedIndex.value == 3
+                child: controller.selectedIndex.value == 4
                     ? Icon(Icons.person, color: Appcolor.WHITE, size: 30)
                     : Icon(
                         Icons.person_outline,

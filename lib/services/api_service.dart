@@ -8,7 +8,11 @@ class apiService {
     String email,
     String password,
   ) async {
-    final url = Uri.parse("http://10.0.2.2:3000/login");
+    // WORKS FOR ANDROID EMULATOR
+    // final url = Uri.parse("http://10.0.2.2:3000/login");
+
+    // WORKS FOR REAL DEVICE 
+    final url = Uri.parse("http://192.168.1.9:3000/login");
 
     final response = await http.post(
       url,

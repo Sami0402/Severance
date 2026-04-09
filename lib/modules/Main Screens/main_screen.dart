@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/controllers/main_screen_controller.dart';
+import 'package:e_commerce_app/modules/Main%20Screens/favourite_screen.dart';
 import 'package:e_commerce_app/modules/Main%20Screens/home_screen.dart';
 import 'package:e_commerce_app/modules/Main%20Screens/cart_screen.dart';
 import 'package:e_commerce_app/modules/Main%20Screens/profile_screen.dart';
@@ -26,15 +27,16 @@ class MainScreen extends StatelessWidget {
             onPageChanged: controller.changePage,
 
             children: [
-              HomeScreen(),
-              SearchScreen(),
-              CartScreen(),
-              ProfileScreen(),
+              const HomeScreen(),
+              const SearchScreen(),
+              const FavouriteScreen(),
+              const CartScreen(),
+              const ProfileScreen(),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavBar(),
+      bottomNavigationBar: const CustomBottomNavBar(),
     );
   }
 }

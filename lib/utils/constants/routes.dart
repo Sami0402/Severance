@@ -9,13 +9,13 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 
 // Routes names
 class Routes {
-  static String splashScreen = '/splash_screen';
-  static String onboardScreen = '/onboard_screen';
-  static String loginScreen = '/login_screen';
-  static String forgotPasswordScreen = '/forgotPassword_screen';
-  static String registerScreen = '/register_screen';
-  static String MainScreen = '/home_screen';
-  static String productDetail = '/product_screen';
+  static const String splashScreen = '/splash_screen';
+  static const String onboardScreen = '/onboard_screen';
+  static const String loginScreen = '/login_screen';
+  static const String forgotPasswordScreen = '/forgotPassword_screen';
+  static const String registerScreen = '/register_screen';
+  static const String MainScreen = '/home_screen';
+  static const String productDetail = '/product_screen';
 }
 
 final getPages = [
