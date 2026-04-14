@@ -6,6 +6,11 @@ class Images {
   static const String topImage = "assets/Images/top.png";
   static const String sample1 = "assets/Images/sample1.png";
   static const String sample2 = "assets/Images/sample2.jpg";
+  static const String sample3 = "assets/Images/sample3.png";
+  static const String sample4 = "assets/Images/sample4.png";
+  static const String sample5 = "assets/Images/sample5.png";
+  static const String sample6 = "assets/Images/sample6.png";
+  static const String sample7 = "assets/Images/sample7.png";
 
   // ONBOARD
   static const String onboard1 = "assets/Images/onboarding/onboard1.svg";

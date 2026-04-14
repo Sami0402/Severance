@@ -1,4 +1,6 @@
 import 'package:e_commerce_app/controllers/Auth_controller/auth_controller.dart';
+import 'package:e_commerce_app/models/shoe_model.dart';
+import 'package:e_commerce_app/services/api_service.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -23,10 +25,54 @@ class MainScreenController extends GetxController with GetTickerProviderStateMix
     pageController.jumpToPage(index);
   }
 
+
   // HOMESCREEN -----------------
   // TabBarView on HomeScreen
   late TabController tabController;
+
   RxBool isLiked = false.obs;
+
+  final RxBool isLoading = true.obs;
+
+  final RxList<Data> shoeList = <Data>[].obs;
+
+  void fetchAllShoes() async{
+    try{
+      isLoading(true);
+      var result = await ApiService.getAllShoes();
+
+      ShoeModel model = ShoeModel.fromJson(result);
+
+      List<Data> shoes = model.data!;
+
+      shoeList.value = shoes;
+      
+        
+      //   var shoes = data.map( (e)=> ShoeModel(
+          
+      //     data: [
+      //        id: e["id"],
+      //         name: e["name"],
+      //         category: e["category"],
+      //         brand: e["brand"],
+      //         imageUrl: "http://192.168.1.8:3000/uploads/${e["image"]}",
+      //         title: e["title"],
+      //         description: e["description"],
+      //         sizes:   e["sizes"],
+      //     ],
+       
+      // ),
+      //  ).toList();
+
+
+    } catch (e){
+      print(e);
+    } finally {
+      isLoading(false);
+    }
+    
+    
+  }
 
 
   // Truncate text with specified Max Length
@@ -40,8 +86,8 @@ class MainScreenController extends GetxController with GetTickerProviderStateMix
   @override
   void onInit() {
     super.onInit();
-    tabController =  TabController(length: 3, vsync: this);
-    
+    fetchAllShoes();
+    tabController =  TabController(length: 3, vsync: this);   
   }
 
   @override

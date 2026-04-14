@@ -1,8 +1,8 @@
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:e_commerce_app/controllers/main_screen_controller.dart';
 import 'package:e_commerce_app/utils/constants/AppColor.dart';
-import 'package:e_commerce_app/utils/constants/assets_constant.dart';
 import 'package:e_commerce_app/utils/constants/typography.dart';
+import 'package:e_commerce_app/utils/helpers/helpers.dart';
 import 'package:e_commerce_app/widgets/solidTextButton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -11,35 +11,49 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/route_manager.dart';
 
 class ProductDetail extends StatelessWidget {
-  const ProductDetail({super.key});
+  const ProductDetail({super.key,  required this.imageUrl, required this.name, required this.price, required this.category, required this.title, required this.description});
 
+  final String imageUrl;
+  final String name;
+  final int price;
+  final String category;
+  final String title;
+  final String description;
+  // TODO ADD SIZES AND RATING
   @override
   Widget build(BuildContext context) {
     final MainScreenController controller = Get.find<MainScreenController>();
+
+    SizeConfig.init(context);
+
     return Scaffold(
-      // backgroundColor: Colors.white70,
+      backgroundColor: const Color.fromARGB(255, 245, 250, 252),
       body: Column(
         children: [
           Stack(
             children: [
               SizedBox(
-                width: MediaQuery.sizeOf(context).width,
-                height: MediaQuery.sizeOf(context).height,
+                width: SizeConfig.screenWidth,
+                height: SizeConfig.screenHeight,
               ),
               // PRODUCT IMAGE & CANCEL -- CATEGORY -- FAVOURITE
               Padding(
-                padding: const EdgeInsets.only(top: 20),
+                padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.04),
                 child: Stack(
                   children: [
-                    SizedBox(
-                      height: MediaQuery.sizeOf(context).height * 0.40,
-                      width: MediaQuery.sizeOf(context).width,
-                      child: Image.asset(Images.sample1, fit: BoxFit.fitWidth),
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: SizeConfig.screenHeight * 0.030,
+                      ),
+                      height: SizeConfig.screenHeight * 0.32,
+                      width: SizeConfig.screenWidth,
+
+                      child: Image.network("http://192.168.1.8:3000/uploads/${imageUrl}", fit: BoxFit.contain),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 5,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: SizeConfig.screenWidth * 0.028,
+                        vertical: SizeConfig.screenHeight * 0.009,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -49,13 +63,16 @@ class ProductDetail extends StatelessWidget {
                             onPressed: () {
                               Get.back();
                             },
-                            icon: Icon(Icons.clear),
+                            icon: Icon(
+                              Icons.clear,
+                              size: SizeConfig.screenHeight * 0.028,
+                            ),
                           ),
                           //CATEGORY
-                          Text(
-                            "Product Details",
-                            style: TypographyPoppins.labelSmall,
-                          ),
+                          // Text(
+                          //   "Product Details",
+                          //   style: TypographyPoppins.labelSmall,
+                          // ),
                           // FAVOURITE
                           Obx(
                             () => IconButton(
@@ -66,13 +83,13 @@ class ProductDetail extends StatelessWidget {
                               icon: controller.isLiked.value
                                   ? Icon(
                                       Icons.favorite,
-                                      color: Colors.pink,
-                                      size: 24,
+                                      color: Appcolor.BLACK,
+                                      size: SizeConfig.screenHeight * 0.028,
                                     )
                                   : Icon(
                                       Icons.favorite_border_outlined,
-                                      color: Appcolor.GREY,
-                                      size: 24,
+                                      color: Colors.grey[500],
+                                      size: SizeConfig.screenHeight * 0.028,
                                     ),
                             ),
                           ),
@@ -85,8 +102,8 @@ class ProductDetail extends StatelessWidget {
               Positioned(
                 bottom: 0,
                 child: Container(
-                  height: MediaQuery.sizeOf(context).height * 0.61,
-                  width: MediaQuery.sizeOf(context).width,
+                  height: SizeConfig.screenHeight * 0.64,
+                  width: SizeConfig.screenWidth,
                   decoration: BoxDecoration(
                     color: Appcolor.WHITE,
                     borderRadius: BorderRadius.only(
@@ -95,128 +112,154 @@ class ProductDetail extends StatelessWidget {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                    ).copyWith(top: 32, bottom: 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // SHOE NAME
-                        SizedBox(
-                          width: MediaQuery.sizeOf(context).width * 0.8,
-                          child: Text(
-                            "Ultraboost Shoes max max",
-                            style: TypographyPoppins.displayLarge.copyWith(
-                              fontSize: 35,
-                              height: 1.0,
-                            ),
-                          ),
+                    padding:
+                        EdgeInsets.symmetric(
+                          horizontal: SizeConfig.screenHeight * 0.03,
+                        ).copyWith(
+                          top: SizeConfig.screenHeight * 0.035,
+                          bottom: SizeConfig.screenHeight * 0.015,
                         ),
-                        SizedBox(height: 10),
-                        // SHOW CATEGORY & Rating
-                        Row(
-                          children: [
-                            Text(
-                              "Men's Running",
-                              style: TypographyPoppins.labelSmall.copyWith(
-                                color: Appcolor.GREY,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // SHOE NAME
+                          SizedBox(
+                            width: MediaQuery.sizeOf(context).width * 0.8,
+                            child: Text(
+                              title,
+                              style: TypographyPoppins.displayLarge.copyWith(
+                                fontSize: SizeConfig.screenHeight * 0.038,
+                                height: 1.0,
                               ),
                             ),
-                            SizedBox(width: 34),
-                            RatingBar.readOnly(
-                              size: 18,
-                              isHalfAllowed: true,
-                              filledIcon: Icons.star,
-                              filledColor: Appcolor.BLACK,
-                              emptyIcon: Icons.star_border,
-                              emptyColor: Appcolor.BLACK,
-                              halfFilledColor: Appcolor.BLACK,
-                              halfFilledIcon: Icons.star_half,
-                              initialRating: 4.5,
-                              maxRating: 5,
-                            ),
-                            SizedBox(width: 4),
-                            Text(
-                              "4.5",
-                              style: TypographyPoppins.labelSmall.copyWith(
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 18),
-                        // PRICE
-                        Text(
-                          "\$180.00",
-                          style: TypographyPoppins.displayLarge.copyWith(
-                            fontWeight: FontWeight.w600,
                           ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.sizeOf(context).height * 0.024,
-                        ),
-                        // SELECT SIZE
-                        Text(
-                          "Select Size",
-                          style: TypographyPoppins.labelSmall.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.sizeOf(context).height * 0.09,
-                          width: MediaQuery.sizeOf(context).width,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 8,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                margin: EdgeInsets.only(right: 25),
-                                height:
-                                    MediaQuery.sizeOf(context).height * 0.081,
-                                width: MediaQuery.sizeOf(context).width * 0.11,
-                                decoration: BoxDecoration(
-                                  border: BoxBorder.all(color: Appcolor.BLACK),
-                                  shape: BoxShape.circle,
+                          SizedBox(height: SizeConfig.screenHeight * 0.015),
+                          // SHOW CATEGORY & Rating
+                          Row(
+                            children: [
+                              Text(
+                                category,
+                                style: TypographyPoppins.labelSmall.copyWith(
+                                  color: Appcolor.GREY,
+                                  fontSize: SizeConfig.screenHeight * 0.015,
                                 ),
-                                child: Center(child: Text('7')),
-                              );
-                            },
+                              ),
+                              SizedBox(width: 34),
+                              RatingBar.readOnly(
+                                size: SizeConfig.screenHeight * 0.015,
+                                isHalfAllowed: true,
+                                filledIcon: Icons.star,
+                                filledColor: Appcolor.BLACK,
+                                emptyIcon: Icons.star_border,
+                                emptyColor: Appcolor.BLACK,
+                                halfFilledColor: Appcolor.BLACK,
+                                halfFilledIcon: Icons.star_half,
+                                initialRating: 4.5,
+                                maxRating: 5,
+                              ),
+                              SizedBox(width: SizeConfig.screenWidth * 0.01),
+                              Text(
+                                "4.5",
+                                style: TypographyPoppins.labelSmall.copyWith(
+                                  decoration: TextDecoration.underline,
+                                  fontSize: SizeConfig.screenHeight * 0.015,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        // DIVIDER
-                        Divider(color: Colors.grey[300]),
-                        SizedBox(
-                          height: MediaQuery.sizeOf(context).height * 0.019,
-                        ),
-                        // DESCRIPTION
-                        SizedBox(
-                          width: MediaQuery.sizeOf(context).width * 0.8,
-                          child: Text(
-                            "Adidas Running Shoes With Cooling Ventilation",
-                            maxLines: 2,
-                            style: TypographyPoppins.displayMedium.copyWith(
-                              fontSize: 22,
+                          SizedBox(height: SizeConfig.screenHeight * 0.015),
+                          // PRICE
+                          Text(
+                            "\$$price",
+                            style: TypographyPoppins.displayLarge.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: SizeConfig.screenHeight * 0.028,
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.sizeOf(context).height * 0.017,
-                        ),
-                        Text(
-                          "Take cool dry on sunny, warmdays. These adidas running shoes have plenty of ventilation",
-                          maxLines: 2,
-
-                          overflow: TextOverflow.ellipsis,
-                          style: TypographyPoppins.labelSmall.copyWith(
-                            color: Appcolor.GREY,
-                            fontSize: 14,
+                          SizedBox(height: SizeConfig.screenHeight * 0.024),
+                          // SELECT SIZE
+                          Text(
+                            "Select Size",
+                            style: TypographyPoppins.labelSmall.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.sizeOf(context).height * 0.017,
-                        ),
-                        solidTextButton(text: "Add to bag"),
-                      ],
+                          SizedBox(
+                            height: SizeConfig.screenHeight * 0.085,
+                            width: SizeConfig.screenWidth,
+
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 8,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  margin: EdgeInsets.only(
+                                    right: SizeConfig.screenWidth * 0.040,
+                                  ),
+                                  height:
+                                      MediaQuery.sizeOf(context).height * 0.050,
+                                  width:
+                                      MediaQuery.sizeOf(context).width * 0.09,
+                                  decoration: BoxDecoration(
+                                    border: BoxBorder.all(
+                                      color: Appcolor.BLACK,
+                                    ),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '7',
+                                      style: TypographyPoppins.labelSmall
+                                          .copyWith(
+                                            fontSize:
+                                                SizeConfig.screenHeight * 0.018,
+                                          ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          // DIVIDER
+                          Divider(color: Colors.grey.withValues(alpha: 0.15)),
+                          SizedBox(
+                            height: MediaQuery.sizeOf(context).height * 0.019,
+                          ),
+                          // DESCRIPTION
+                          SizedBox(
+                            width: MediaQuery.sizeOf(context).width * 0.85,
+                            child: Text(
+                              title,
+                              maxLines: 2,
+                              style: TypographyPoppins.displayMedium.copyWith(
+                                fontSize: SizeConfig.screenHeight * 0.025,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.sizeOf(context).height * 0.013,
+                          ),
+                          Text(
+                            description,
+                            maxLines: 2,
+
+                            overflow: TextOverflow.ellipsis,
+                            style: TypographyPoppins.labelSmall.copyWith(
+                              color: Appcolor.GREY,
+                              fontSize: SizeConfig.screenHeight * 0.018,
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.sizeOf(context).height * 0.020,
+                          ),
+                          solidTextButton(
+                            onPressed: (){
+                              
+                            },
+                            text: "Add to bag"),
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -4,6 +4,7 @@ import 'package:e_commerce_app/modules/Main%20Screens/home_screen.dart';
 import 'package:e_commerce_app/modules/Main%20Screens/cart_screen.dart';
 import 'package:e_commerce_app/modules/Main%20Screens/profile_screen.dart';
 import 'package:e_commerce_app/modules/Main%20Screens/search_screen.dart';
+import 'package:e_commerce_app/utils/constants/AppColor.dart';
 import 'package:e_commerce_app/widgets/customNavBar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +17,8 @@ class MainScreen extends StatelessWidget {
     final MainScreenController controller = Get.find<MainScreenController>();
 
     return Scaffold(
-      backgroundColor: Color(0xFFE2E2E2),
+      // backgroundColor: Color(0xFFE2E2E2),
+      backgroundColor: Appcolor.WHITE,
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.sizeOf(context).height,

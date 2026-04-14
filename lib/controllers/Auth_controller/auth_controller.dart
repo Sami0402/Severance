@@ -18,7 +18,7 @@ class AuthController extends GetxController {
 
   // For login with Email & Password
   Future login() async {
-    final result = await apiService.loginUser(email.text, password.text);
+    final result = await ApiService.loginUser(email.text, password.text);
     final prefs = await SharedPreferences.getInstance();
     if (result["success"]) {
       await prefs.setString("id", result["user"]["id"]);
@@ -39,7 +39,7 @@ class AuthController extends GetxController {
 
   // For SingUp with Email & Password
   Future register() async {
-    final result = await apiService.registerUser(
+    final result = await ApiService.registerUser(
       firstName.text,
       lastName.text,
       username.text,

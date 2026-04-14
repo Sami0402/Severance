@@ -2,6 +2,7 @@ import 'package:e_commerce_app/modules/Auth/forgotPassword_screen.dart';
 import 'package:e_commerce_app/modules/Auth/login_screen.dart';
 import 'package:e_commerce_app/modules/Main%20Screens/main_screen.dart';
 import 'package:e_commerce_app/modules/Main%20Screens/product_detail.dart';
+import 'package:e_commerce_app/modules/Main%20Screens/show_all_product_screen.dart';
 import 'package:e_commerce_app/modules/onboard/onboard_screen.dart';
 import 'package:e_commerce_app/modules/Auth/register_screen.dart';
 import 'package:e_commerce_app/modules/splash_screen.dart';
@@ -16,6 +17,7 @@ class Routes {
   static const String registerScreen = '/register_screen';
   static const String MainScreen = '/home_screen';
   static const String productDetail = '/product_screen';
+  static const String showAllProduct = '/show_all_product';
 }
 
 final getPages = [
@@ -25,5 +27,5 @@ final getPages = [
   GetPage(name: Routes.forgotPasswordScreen, page: () => Forgotpassword()),
   GetPage(name: Routes.registerScreen, page: () => RegisterScreen()),
   GetPage(name: Routes.MainScreen, page: () => MainScreen()),
-  GetPage(name: Routes.productDetail, page: () => ProductDetail()),
+  GetPage(name: Routes.showAllProduct, page: () => ShowAllProduct()),
 ];
