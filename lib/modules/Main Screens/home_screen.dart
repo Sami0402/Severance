@@ -19,7 +19,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     SizeConfig.init(context);
 
     final MainScreenController controller = Get.find<MainScreenController>();
@@ -51,7 +50,7 @@ class HomeScreen extends StatelessWidget {
               // CATEGORY SCROLLER / TabBar
               Padding(
                 padding: EdgeInsetsGeometry.only(
-                  top: SizeConfig.screenHeight * 0.18,
+                  top: SizeConfig.screenHeight * 0.17,
                 ),
                 child: TabBar(
                   controller: controller.tabController,
@@ -83,15 +82,16 @@ class HomeScreen extends StatelessWidget {
                     left: SizeConfig.screenWidth * 0.040,
                   ),
                   child: TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
                     controller: controller.tabController,
-                    
+
                     children: [
                       // MEN SHOES
-                      TabBarViewScreen(controller: controller),
+                      TabBarViewScreen(shoe: controller.menShoes),
                       // WOMEN SHOES
-                      TabBarViewScreen(controller: controller),
+                      TabBarViewScreen(shoe: controller.womenShoes),
                       // KIDS SHOES
-                      TabBarViewScreen(controller: controller),
+                      TabBarViewScreen(shoe: controller.kidsShoes),
                     ],
                   ),
                 ),

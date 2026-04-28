@@ -17,5 +17,5 @@ samples, guidance on mobile development, and a full API reference.
 
 
 
-// TODO .
+// TODO Dsipose the filteredItem list propely after navigation
 

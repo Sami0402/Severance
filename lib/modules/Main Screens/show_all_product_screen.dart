@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/controllers/main_screen_controller.dart';
+import 'package:e_commerce_app/models/shoe_model.dart';
 import 'package:e_commerce_app/modules/Main%20Screens/product_detail.dart';
 import 'package:e_commerce_app/modules/Main%20Screens/widgets/productCard.dart';
 import 'package:e_commerce_app/utils/constants/AppColor.dart';
@@ -10,46 +11,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/route_manager.dart';
 
 class ShowAllProduct extends StatelessWidget {
-  const ShowAllProduct({super.key});
+  const ShowAllProduct({super.key, required this.shoe});
+
+  final List<Data> shoe;
 
   @override
   Widget build(BuildContext context) {
-    // final List<ProductCard> products = [
-    //   ProductCard(
-    //     image: Images.sample1,
-    //     height: SizeConfig.screenHeight * 0.32,
-    //   ),
-    //   ProductCard(
-    //     image: Images.sample6,
-    //     height: SizeConfig.screenHeight * 0.35,
-    //   ),
-    //   ProductCard(
-    //     image: Images.sample3,
-    //     height: SizeConfig.screenHeight * 0.32,
-    //   ),
-    //   ProductCard(
-    //     image: Images.sample4,
-    //     height: SizeConfig.screenHeight * 0.35,
-    //   ),
-    //   ProductCard(
-    //     image: Images.sample5,
-    //     height: SizeConfig.screenHeight * 0.32,
-    //   ),
-    //   ProductCard(
-    //     image: Images.sample6,
-    //     height: SizeConfig.screenHeight * 0.35,
-    //   ),
-    // ];
     SizeConfig.init(context);
 
     final MainScreenController controller = Get.find<MainScreenController>();
 
     return Scaffold(
-      backgroundColor: Appcolor.WHITE,
       body: SafeArea(
         child: Stack(
           children: [
@@ -58,27 +33,31 @@ class ShowAllProduct extends StatelessWidget {
 
             Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.screenWidth * 0.025,
+                horizontal: SizeConfig.screenWidth * 0.015,
               ).copyWith(top: SizeConfig.screenHeight * 0.01),
               child: Column(
                 children: [
                   // BACK AND FILTER
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        icon: Icon(Icons.close_rounded, color: Appcolor.WHITE),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: IconButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          icon: Icon(
+                            Icons.arrow_back_ios_new,
+                            color: Appcolor.WHITE,
+                            size: SizeConfig.screenHeight * 0.025,
+                          ),
+                        ),
                       ),
-
-                      IconButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        icon: Icon(
-                          Icons.filter_alt_sharp,
+                      SizedBox(width: SizeConfig.screenWidth * 0.25),
+                      Text(
+                        'All Products',
+                        textAlign: TextAlign.center,
+                        style: TypographyPoppins.labelSmall.copyWith(
                           color: Appcolor.WHITE,
                         ),
                       ),
@@ -112,32 +91,76 @@ class ShowAllProduct extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: SizeConfig.screenHeight * 0.035),
-                  // GRID VIEW
+                  // TabBarView
                   Expanded(
-                    child: MasonryGridView.count(
-                      crossAxisCount: 2,
-                      itemCount: controller.shoeList.length,
-                      mainAxisSpacing: SizeConfig.screenHeight * 0.045,
-                      crossAxisSpacing: SizeConfig.screenWidth * 0.049,
+                    child: TabBarView(
+                      // physics: const NeverScrollableScrollPhysics(),
+                      controller: controller.tabController,
 
-                      padding: EdgeInsets.symmetric(
-                        horizontal: SizeConfig.screenWidth * 0.03,
-                      ).copyWith(bottom: SizeConfig.screenHeight * 0.02),
-                      itemBuilder: (context, index) {
-                        var shoe = controller.shoeList[index];
-                        return ProductCard(
-                          height:
-                              (index % 5 + 1) *
-                              MediaQuery.sizeOf(context).height *
-                              0.30,
-                          name: shoe.name!,
-                          category: shoe.category!,
-                          imageUrl: shoe.image!,
-                          price: shoe.price!,
-                          title: shoe.title!,
-                          description: shoe.description!,
-                        );
-                      },
+                      children: [
+                        // MEN SHOES
+                        // GRID VIEW
+                        MasonryGridView.count(
+                          crossAxisCount: 2,
+                          itemCount: controller.menShoes.length,
+                          mainAxisSpacing: SizeConfig.screenHeight * 0.045,
+                          crossAxisSpacing: SizeConfig.screenWidth * 0.049,
+
+                          padding: EdgeInsets.symmetric(
+                            horizontal: SizeConfig.screenWidth * 0.04,
+                          ).copyWith(bottom: SizeConfig.screenHeight * 0.03),
+                          itemBuilder: (context, index) {
+                            final height = (index % 2 == 0)
+                                ? MediaQuery.sizeOf(context).height * 0.32
+                                : MediaQuery.sizeOf(context).height * 0.35;
+                            return ProductCard(
+                              height: height,
+
+                              shoe: controller.menShoes[index],
+                            );
+                          },
+                        ),
+                        // WOMEN SHOES
+                        MasonryGridView.count(
+                          crossAxisCount: 2,
+                          itemCount: controller.womenShoes.length,
+                          mainAxisSpacing: SizeConfig.screenHeight * 0.045,
+                          crossAxisSpacing: SizeConfig.screenWidth * 0.049,
+
+                          padding: EdgeInsets.symmetric(
+                            horizontal: SizeConfig.screenWidth * 0.04,
+                          ).copyWith(bottom: SizeConfig.screenHeight * 0.03),
+                          itemBuilder: (context, index) {
+                            final height = (index % 2 == 0)
+                                ? MediaQuery.sizeOf(context).height * 0.32
+                                : MediaQuery.sizeOf(context).height * 0.35;
+                            return ProductCard(
+                              height: height,
+                              shoe: controller.womenShoes[index],
+                            );
+                          },
+                        ),
+                        // KIDS SHOES
+                        MasonryGridView.count(
+                          crossAxisCount: 2,
+                          itemCount: controller.kidsShoes.length,
+                          mainAxisSpacing: SizeConfig.screenHeight * 0.045,
+                          crossAxisSpacing: SizeConfig.screenWidth * 0.049,
+
+                          padding: EdgeInsets.symmetric(
+                            horizontal: SizeConfig.screenWidth * 0.04,
+                          ).copyWith(bottom: SizeConfig.screenHeight * 0.03),
+                          itemBuilder: (context, index) {
+                            final height = (index % 2 == 0)
+                                ? MediaQuery.sizeOf(context).height * 0.32
+                                : MediaQuery.sizeOf(context).height * 0.35;
+                            return ProductCard(
+                              height: height,
+                              shoe: controller.kidsShoes[index],
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 ],

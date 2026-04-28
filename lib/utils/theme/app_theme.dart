@@ -16,7 +16,7 @@ class AppTheme {
         backgroundColor: Appcolor.WHITE,
       ),
       primaryColor: Appcolor.BLACK,
-      scaffoldBackgroundColor: Appcolor.WHITE,
+      scaffoldBackgroundColor: Colors.grey[100],
 
       textButtonTheme: TextButtonThemeData(
         style: ButtonStyle(

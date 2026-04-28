@@ -1,30 +1,32 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:e_commerce_app/controllers/main_screen_controller.dart';
+import 'package:e_commerce_app/models/shoe_model.dart';
 import 'package:e_commerce_app/utils/constants/AppColor.dart';
 import 'package:e_commerce_app/utils/constants/typography.dart';
 import 'package:e_commerce_app/utils/helpers/helpers.dart';
 import 'package:e_commerce_app/widgets/solidTextButton.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/route_manager.dart';
 
 class ProductDetail extends StatelessWidget {
-  const ProductDetail({super.key,  required this.imageUrl, required this.name, required this.price, required this.category, required this.title, required this.description});
+  const ProductDetail({super.key, required this.shoe});
 
-  final String imageUrl;
-  final String name;
-  final int price;
-  final String category;
-  final String title;
-  final String description;
-  // TODO ADD SIZES AND RATING
+  final Data shoe;
+
   @override
   Widget build(BuildContext context) {
     final MainScreenController controller = Get.find<MainScreenController>();
 
     SizeConfig.init(context);
+
+   
+    final String fullImageUrl = controller.url + shoe.image!;
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 245, 250, 252),
@@ -48,7 +50,10 @@ class ProductDetail extends StatelessWidget {
                       height: SizeConfig.screenHeight * 0.32,
                       width: SizeConfig.screenWidth,
 
-                      child: Image.network("http://192.168.1.8:3000/uploads/${imageUrl}", fit: BoxFit.contain),
+                      child: CachedNetworkImage(
+                        imageUrl: fullImageUrl,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
@@ -68,27 +73,25 @@ class ProductDetail extends StatelessWidget {
                               size: SizeConfig.screenHeight * 0.028,
                             ),
                           ),
-                          //CATEGORY
-                          // Text(
-                          //   "Product Details",
-                          //   style: TypographyPoppins.labelSmall,
-                          // ),
+
                           // FAVOURITE
                           Obx(
                             () => IconButton(
                               onPressed: () {
-                                controller.isLiked.value =
-                                    !controller.isLiked.value;
+                                controller.toggleLike(shoe);
                               },
-                              icon: controller.isLiked.value
+                              icon: shoe.isLiked.value == true
                                   ? Icon(
-                                      Icons.favorite,
-                                      color: Appcolor.BLACK,
+                                      CupertinoIcons.heart_fill,
+                                      color: Colors.black54,
                                       size: SizeConfig.screenHeight * 0.028,
                                     )
                                   : Icon(
-                                      Icons.favorite_border_outlined,
-                                      color: Colors.grey[500],
+                                      CupertinoIcons.heart,
+                                      color: Colors.grey.shade600.withValues(
+                                        alpha: 0.5,
+                                      ),
+
                                       size: SizeConfig.screenHeight * 0.028,
                                     ),
                             ),
@@ -127,7 +130,8 @@ class ProductDetail extends StatelessWidget {
                           SizedBox(
                             width: MediaQuery.sizeOf(context).width * 0.8,
                             child: Text(
-                              title,
+                              shoe.name!,
+                              maxLines: 2,
                               style: TypographyPoppins.displayLarge.copyWith(
                                 fontSize: SizeConfig.screenHeight * 0.038,
                                 height: 1.0,
@@ -139,15 +143,16 @@ class ProductDetail extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                category,
+                                shoe.category!,
                                 style: TypographyPoppins.labelSmall.copyWith(
                                   color: Appcolor.GREY,
-                                  fontSize: SizeConfig.screenHeight * 0.015,
+                                  fontSize: SizeConfig.screenHeight * 0.018,
                                 ),
                               ),
-                              SizedBox(width: 34),
+                              // SizedBox(width: szieconfig),
+                              Spacer(),
                               RatingBar.readOnly(
-                                size: SizeConfig.screenHeight * 0.015,
+                                size: SizeConfig.screenHeight * 0.018,
                                 isHalfAllowed: true,
                                 filledIcon: Icons.star,
                                 filledColor: Appcolor.BLACK,
@@ -155,29 +160,30 @@ class ProductDetail extends StatelessWidget {
                                 emptyColor: Appcolor.BLACK,
                                 halfFilledColor: Appcolor.BLACK,
                                 halfFilledIcon: Icons.star_half,
-                                initialRating: 4.5,
+                                initialRating: shoe.rating!,
                                 maxRating: 5,
                               ),
                               SizedBox(width: SizeConfig.screenWidth * 0.01),
                               Text(
-                                "4.5",
+                                shoe.rating!.toString(),
                                 style: TypographyPoppins.labelSmall.copyWith(
                                   decoration: TextDecoration.underline,
-                                  fontSize: SizeConfig.screenHeight * 0.015,
+                                  fontSize: SizeConfig.screenHeight * 0.014,
                                 ),
                               ),
+                              SizedBox(width: SizeConfig.screenWidth * 0.025),
                             ],
                           ),
                           SizedBox(height: SizeConfig.screenHeight * 0.015),
                           // PRICE
                           Text(
-                            "\$$price",
+                            "\$${shoe.price}",
                             style: TypographyPoppins.displayLarge.copyWith(
                               fontWeight: FontWeight.w600,
-                              fontSize: SizeConfig.screenHeight * 0.028,
+                              fontSize: SizeConfig.screenHeight * 0.033,
                             ),
                           ),
-                          SizedBox(height: SizeConfig.screenHeight * 0.024),
+                          SizedBox(height: SizeConfig.screenHeight * 0.020),
                           // SELECT SIZE
                           Text(
                             "Select Size",
@@ -191,30 +197,65 @@ class ProductDetail extends StatelessWidget {
 
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount: 8,
+                              itemCount: shoe.sizes!.length,
                               itemBuilder: (context, index) {
-                                return Container(
-                                  margin: EdgeInsets.only(
-                                    right: SizeConfig.screenWidth * 0.040,
-                                  ),
-                                  height:
-                                      MediaQuery.sizeOf(context).height * 0.050,
-                                  width:
-                                      MediaQuery.sizeOf(context).width * 0.09,
-                                  decoration: BoxDecoration(
-                                    border: BoxBorder.all(
-                                      color: Appcolor.BLACK,
-                                    ),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '7',
-                                      style: TypographyPoppins.labelSmall
-                                          .copyWith(
-                                            fontSize:
-                                                SizeConfig.screenHeight * 0.018,
-                                          ),
+                                return Obx(
+                                  () => InkWell(
+                                    onTap: () {
+                                      // RESET OTHER SIZES SELECTION
+                                      for (var size in shoe.sizes!) {
+                                        // print(size.isSelected.value);
+                                        size.isSelected.value = false;
+                                      }
+
+                                      shoe.sizes![index].isSelected.value =
+                                          !shoe.sizes![index].isSelected.value;
+                                    },
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                        right: SizeConfig.screenWidth * 0.040,
+                                      ),
+                                      height:
+                                          MediaQuery.sizeOf(context).height *
+                                          0.050,
+                                      width:
+                                          MediaQuery.sizeOf(context).width *
+                                          0.09,
+                                      decoration: BoxDecoration(
+                                        color:
+                                            shoe.sizes![index].isSelected.value
+                                            ? Appcolor.BLACK
+                                            : Appcolor.WHITE,
+                                        border: BoxBorder.all(
+                                          color:
+                                              shoe
+                                                  .sizes![index]
+                                                  .isSelected
+                                                  .value
+                                              ? Appcolor.WHITE
+                                              : Appcolor.BLACK,
+                                          width: 1.5,
+                                        ),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          shoe.sizes![index].size!,
+                                          style: TypographyPoppins.labelSmall
+                                              .copyWith(
+                                                fontSize:
+                                                    SizeConfig.screenHeight *
+                                                    0.018,
+                                                color:
+                                                    shoe
+                                                        .sizes![index]
+                                                        .isSelected
+                                                        .value
+                                                    ? Appcolor.WHITE
+                                                    : Appcolor.BLACK,
+                                              ),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 );
@@ -230,7 +271,7 @@ class ProductDetail extends StatelessWidget {
                           SizedBox(
                             width: MediaQuery.sizeOf(context).width * 0.85,
                             child: Text(
-                              title,
+                              shoe.title!,
                               maxLines: 2,
                               style: TypographyPoppins.displayMedium.copyWith(
                                 fontSize: SizeConfig.screenHeight * 0.025,
@@ -241,7 +282,7 @@ class ProductDetail extends StatelessWidget {
                             height: MediaQuery.sizeOf(context).height * 0.013,
                           ),
                           Text(
-                            description,
+                            shoe.description!,
                             maxLines: 2,
 
                             overflow: TextOverflow.ellipsis,
@@ -253,11 +294,7 @@ class ProductDetail extends StatelessWidget {
                           SizedBox(
                             height: MediaQuery.sizeOf(context).height * 0.020,
                           ),
-                          solidTextButton(
-                            onPressed: (){
-                              
-                            },
-                            text: "Add to bag"),
+                          solidTextButton(onPressed: () {}, text: "Add to bag"),
                         ],
                       ),
                     ),

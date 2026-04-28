@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/utils/constants/AppColor.dart';
 import 'package:e_commerce_app/utils/constants/typography.dart';
+import 'package:e_commerce_app/utils/helpers/helpers.dart';
 import 'package:e_commerce_app/utils/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,18 +11,24 @@ class customTextField extends StatelessWidget {
   customTextField({
     super.key,
     required this.hintText,
+    this.onChanged,
     this.prefixIcon,
     this.isObsecure = false,
     this.suffixIcon,
     this.showSufixIcon = false,
     this.controller,
     this.svgPicture,
-    this.borderColor = null,
+    this.borderColor,
     this.validator,
     this.errorText,
+    this.hintStyle,
+    this.prefixIconSize,
   });
   final String hintText;
+  final TextStyle? hintStyle;
+  final void Function(String)? onChanged;
   final IconData? prefixIcon;
+  final double? prefixIconSize;
   final String? svgPicture;
   final bool isObsecure;
   final bool showSufixIcon;
@@ -34,10 +41,12 @@ class customTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig.init(context);
     return Obx(
       () => TextFormField(
         controller: controller,
         validator: validator,
+        onChanged: onChanged,
         obscureText: toggle.value,
         decoration: InputDecoration(
           filled: true,
@@ -45,7 +54,9 @@ class customTextField extends StatelessWidget {
           hintText: hintText,
           errorText: errorText,
           errorStyle: TextStyle(fontFamily: AppTheme.POPPINS),
-          hintStyle: TypographyPoppins.Bold.copyWith(color: Colors.grey[600]),
+          hintStyle: hintStyle == null
+              ? TypographyPoppins.Bold.copyWith(color: Colors.grey[600])
+              : hintStyle!,
           border: OutlineInputBorder(
             borderSide: BorderSide(
               style: BorderStyle.solid,
@@ -56,21 +67,29 @@ class customTextField extends StatelessWidget {
             ),
             borderRadius: BorderRadius.circular(12),
           ),
-          prefixIcon: prefixIcon == null
-              ? Container(
-                  height: 15,
-                  width: 15,
-                  alignment: Alignment.center,
-                  child: prefixIcon == null
-                      ? SizedBox()
-                      : SvgPicture.asset(
-                          svgPicture!,
-                          height: 20.0,
-                          width: 15.0,
-                          color: Colors.grey[600],
-                        ),
-                )
-              : Icon(prefixIcon, color: Colors.grey),
+          prefixIcon: Icon(
+            prefixIcon,
+            size: prefixIconSize == null
+                ? SizeConfig.screenHeight * 0.032
+                : prefixIconSize!,
+            color: Colors.grey,
+          ),
+
+          // prefixIcon: prefixIcon == null
+          //     ? Container(
+          //         height: 15,
+          //         width: 15,
+          //         alignment: Alignment.center,
+          //         child: prefixIcon == null
+          //             ? SizedBox()
+          //             : SvgPicture.asset(
+          //                 svgPicture!,
+          //                 height: 20.0,
+          //                 width: 15.0,
+          //                 color: Colors.grey[600],
+          //               ),
+          //       )
+          //     : Icon(prefixIcon, color: Colors.grey),
           suffixIcon: showSufixIcon
               ? (suffixIcon != null
                     ? IconButton(
@@ -85,7 +104,24 @@ class customTextField extends StatelessWidget {
               : null,
 
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Appcolor.BLACK, width: 2),
+            borderSide: BorderSide(
+              color: borderColor == null ? Appcolor.BLACK : borderColor!,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(14),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: borderColor == null ? Appcolor.BLACK : borderColor!,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(14),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: borderColor == null ? Appcolor.BLACK : borderColor!,
+              width: 2,
+            ),
             borderRadius: BorderRadius.circular(14),
           ),
         ),

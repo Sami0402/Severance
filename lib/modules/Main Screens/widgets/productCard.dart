@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_app/controllers/main_screen_controller.dart';
+import 'package:e_commerce_app/models/shoe_model.dart';
 import 'package:e_commerce_app/modules/Main%20Screens/product_detail.dart';
 import 'package:e_commerce_app/utils/constants/typography.dart';
 import 'package:e_commerce_app/utils/helpers/helpers.dart';
@@ -6,40 +8,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({
-    super.key,
-    required this.height,
-    required this.imageUrl,
-    required this.name,
-    required this.category,
-    required this.price,
-    required this.title,
-    required this.description,
-  });
+  const ProductCard({super.key, required this.height, required this.shoe});
 
+  final Data shoe;
   final double height;
-  final String imageUrl;
-  final String name;
-  final String category;
-  final int price;
-  final String title;
-  final String description;
+
   @override
   Widget build(BuildContext context) {
     final MainScreenController controller = Get.find<MainScreenController>();
+
+    
+    final String fullImageUrl = controller.url + shoe.image!;
+
     return InkWell(
-      onTap: () => Get.to(
-        ProductDetail(
-          imageUrl: imageUrl,
-          name: name,
-          price: price,
-          category: category,
-          title: title,
-          description: description,
-        ),
-      ),
+      onTap: () => Get.to(ProductDetail(shoe: shoe)),
       child: Container(
         height: height,
         decoration: BoxDecoration(
@@ -59,10 +44,11 @@ class ProductCard extends StatelessWidget {
             Container(
               // color: Colors.amber,
               margin: EdgeInsets.only(top: SizeConfig.screenHeight * 0.035),
+
               // height: SizeConfig.screenHeight * 0.18,
               // width: SizeConfig.screenWidth,
-              child: Image.network(
-                "http://192.168.1.8:3000/uploads/${imageUrl}",
+              child: CachedNetworkImage(
+                imageUrl: fullImageUrl,
                 // fit: BoxFit.contain,
                 height: SizeConfig.screenHeight * 0.15,
                 width: SizeConfig.screenWidth * 0.35,
@@ -100,10 +86,13 @@ class ProductCard extends StatelessWidget {
               child: Align(
                 alignment: AlignmentGeometry.centerLeft,
                 child: Text(
-                  name,
+                  shoe.name!,
+                  maxLines: 2,
+
                   style: TypographyPoppins.displaySmall.copyWith(
                     fontSize: SizeConfig.screenHeight * 0.025,
                     height: 1.1,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
@@ -115,7 +104,13 @@ class ProductCard extends StatelessWidget {
               ),
               child: Align(
                 alignment: AlignmentGeometry.centerLeft,
-                child: Text("\$$price", style: TypographyPoppins.labelSmall),
+                child: Text(
+                  "\$${shoe.price}",
+                  style: TypographyPoppins.labelSmall.copyWith(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
             SizedBox(height: SizeConfig.screenHeight * 0.029),

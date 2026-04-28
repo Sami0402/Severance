@@ -9,10 +9,10 @@ class ApiService {
     String password,
   ) async {
     // WORKS FOR ANDROID EMULATOR
-    // final url = Uri.parse("http://10.0.2.2:3000/login");
+    final url = Uri.parse("http://10.0.2.2:3000/login");
 
     // WORKS FOR REAL DEVICE 
-    final url = Uri.parse("http://192.168.1.8:3000/login");
+    // final url = Uri.parse("http://192.168.1.8:3000/login");
 
     final response = await http.post(
       url,
@@ -55,10 +55,10 @@ class ApiService {
   // FETCH SHOES
   static Future<Map<String, dynamic>> getAllShoes() async{
     // WORKS FOR ANDROID EMULATOR
-    // final url = Uri.parse("http://10.0.2.2:3000/Shoes");
+    final url = Uri.parse("http://10.0.2.2:3000/Shoes");
 
     // WORKS FOR REAL DEVICE 
-    final url = Uri.parse("http://192.168.1.8:3000/Shoes");
+    // final url = Uri.parse("http://192.168.1.100:3000/Shoes");
 
     final response = await http.get(url);
 

@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 class ShoeModel {
   bool? success;
   List<Data>? data;
@@ -9,7 +10,7 @@ class ShoeModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add( Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
@@ -36,19 +37,24 @@ class Data {
   String? description;
   List<Sizes>? sizes;
   int? iV;
+  double? rating;
+  RxBool isLiked = false.obs;
 
-  Data(
-      {this.sId,
-      this.id,
-      this.name,
-      this.category,
-      this.brand,
-      this.price,
-      this.image,
-      this.title,
-      this.description,
-      this.sizes,
-      this.iV});
+  Data({
+    this.sId,
+    this.id,
+    this.name,
+    this.category,
+    this.brand,
+    this.price,
+    this.image,
+    this.title,
+    this.description,
+    this.sizes,
+    this.iV,
+    this.rating,
+    bool? isLiked,
+  }) : isLiked = (isLiked ?? false).obs ;
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -67,6 +73,8 @@ class Data {
       });
     }
     iV = json['__v'];
+    rating = json['rating'];
+    isLiked = RxBool(json['isLiked'] ?? false);
   }
 
   Map<String, dynamic> toJson() {
@@ -84,28 +92,69 @@ class Data {
       data['sizes'] = this.sizes!.map((v) => v.toJson()).toList();
     }
     data['__v'] = this.iV;
+    data['rating'] = this.rating;
+    data['isLiked'] = this.isLiked.value;
     return data;
   }
 }
 
 class Sizes {
   String? size;
-  bool? isSelected;
+  RxBool isSelected;
   String? sId;
 
-  Sizes({this.size, this.isSelected, this.sId});
+  Sizes({
+    this.size,
+    bool isSelected = false,
+    this.sId,
+  }) : isSelected = isSelected.obs;
 
-  Sizes.fromJson(Map<String, dynamic> json) {
-    size = json['size'];
-    isSelected = json['isSelected'];
-    sId = json['_id'];
+  /// Create object from API JSON
+  factory Sizes.fromJson(Map<String, dynamic> json) {
+    return Sizes(
+      size: json['size'] as String?,
+      isSelected: json['isSelected'] as bool? ?? false,
+      sId: json['_id'] as String?,
+    );
   }
 
+  /// Convert object back to JSON (for API)
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['size'] = this.size;
-    data['isSelected'] = this.isSelected;
-    data['_id'] = this.sId;
-    return data;
+    return {
+      'size': size,
+      'isSelected': isSelected.value, // RxBool → bool
+      '_id': sId,
+    };
+  }
+
+  /// Toggle selection
+  void toggle() {
+    isSelected.toggle();
+  }
+
+  /// Set selection manually
+  void setSelected(bool value) {
+    isSelected.value = value;
   }
 }
+// class Sizes {
+//   String? size;
+//   bool? isSelected;
+//   String? sId;
+
+//   Sizes({this.size, this.isSelected, this.sId});
+
+//   Sizes.fromJson(Map<String, dynamic> json) {
+//     size = json['size'];
+//     isSelected = json['isSelected'];
+//     sId = json['_id'];
+//   }
+
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['size'] = this.size;
+//     data['isSelected'] = this.isSelected;
+//     data['_id'] = this.sId;
+//     return data;
+//   }
+// }

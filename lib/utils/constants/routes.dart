@@ -27,5 +27,5 @@ final getPages = [
   GetPage(name: Routes.forgotPasswordScreen, page: () => Forgotpassword()),
   GetPage(name: Routes.registerScreen, page: () => RegisterScreen()),
   GetPage(name: Routes.MainScreen, page: () => MainScreen()),
-  GetPage(name: Routes.showAllProduct, page: () => ShowAllProduct()),
+ 
 ];

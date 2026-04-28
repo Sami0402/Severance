@@ -8,23 +8,32 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_ticket_provider_mixin.da
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:flutter/material.dart';
 
-class MainScreenController extends GetxController with GetTickerProviderStateMixin {
+class MainScreenController extends GetxController
+    with GetTickerProviderStateMixin {
   final AuthController authController = Get.find<AuthController>();
 
-  TextEditingController search = TextEditingController();
+  final TextEditingController searchQuery = TextEditingController();
+
+  // FOR PHYSICAL DEVICE
+  // final String url = "http://192.168.1.100:3000/uploads/";
+  // FOR EMULATOR
+  final String url = "http://10.0.2.2:3000/uploads/";
 
   // BottomNavBar
   final PageController pageController = PageController();
   RxInt selectedIndex = 0.obs;
 
   void changePage(int index) {
+    if (index != 1) {
+      searchQuery.clear();
+      filteredItems.assignAll(shoeList);
+    }
     selectedIndex.value = index;
   }
 
   void nextPage(index) {
     pageController.jumpToPage(index);
   }
-
 
   // HOMESCREEN -----------------
   // TabBarView on HomeScreen
@@ -34,10 +43,15 @@ class MainScreenController extends GetxController with GetTickerProviderStateMix
 
   final RxBool isLoading = true.obs;
 
+  // ALL SHOES
   final RxList<Data> shoeList = <Data>[].obs;
 
-  void fetchAllShoes() async{
-    try{
+  final List<Data> menShoes = [];
+  final List<Data> womenShoes = [];
+  final List<Data> kidsShoes = [];
+
+  void fetchAllShoes() async {
+    try {
       isLoading(true);
       var result = await ApiService.getAllShoes();
 
@@ -46,34 +60,38 @@ class MainScreenController extends GetxController with GetTickerProviderStateMix
       List<Data> shoes = model.data!;
 
       shoeList.value = shoes;
-      
-        
-      //   var shoes = data.map( (e)=> ShoeModel(
-          
-      //     data: [
-      //        id: e["id"],
-      //         name: e["name"],
-      //         category: e["category"],
-      //         brand: e["brand"],
-      //         imageUrl: "http://192.168.1.8:3000/uploads/${e["image"]}",
-      //         title: e["title"],
-      //         description: e["description"],
-      //         sizes:   e["sizes"],
-      //     ],
-       
-      // ),
-      //  ).toList();
 
-
-    } catch (e){
+      menShoes.addAll(shoeList.where((shoe) => shoe.category == "Men"));
+      womenShoes.addAll(shoeList.where((shoe) => shoe.category == "Women"));
+      kidsShoes.addAll(shoeList.where((shoe) => shoe.category == "Kids"));
+    } catch (e) {
       print(e);
     } finally {
       isLoading(false);
     }
-    
-    
   }
 
+  void toggleLike(Data shoe) {
+    shoe.isLiked.value = !shoe.isLiked.value;
+  }
+
+  // SEARCH FUNCTION
+  final RxList filteredItems = [].obs;
+
+  void filterSearch(String query) {
+    if (query.isEmpty) {
+      filteredItems.assignAll(shoeList);
+    } else {
+      filteredItems.value = shoeList
+          .where(
+            (shoe) =>
+                shoe.name!.toLowerCase().contains(query.toLowerCase()) ||
+                shoe.brand!.toLowerCase().contains(query.toLowerCase()) ||
+                shoe.category!.toLowerCase().contains(query.toLowerCase()),
+          )
+          .toList();
+    }
+  }
 
   // Truncate text with specified Max Length
   String truncateWithEllipsis(String text, int maxLength) {
@@ -87,12 +105,14 @@ class MainScreenController extends GetxController with GetTickerProviderStateMix
   void onInit() {
     super.onInit();
     fetchAllShoes();
-    tabController =  TabController(length: 3, vsync: this);   
+    filteredItems.assignAll(shoeList);
+    tabController = TabController(length: 3, vsync: this);
   }
 
   @override
   void onClose() {
     pageController.dispose();
+    filteredItems.clear();
     super.onClose();
   }
 }

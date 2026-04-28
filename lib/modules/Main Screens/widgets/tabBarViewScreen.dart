@@ -1,6 +1,8 @@
 import 'dart:math' as MainAxisSize;
 
 import 'package:e_commerce_app/controllers/main_screen_controller.dart';
+import 'package:e_commerce_app/models/shoe_model.dart';
+import 'package:e_commerce_app/modules/Main%20Screens/show_all_product_screen.dart';
 import 'package:e_commerce_app/modules/Main%20Screens/widgets/largeProductCard.dart';
 import 'package:e_commerce_app/modules/Main%20Screens/widgets/latestShoeCard.dart';
 import 'package:e_commerce_app/utils/constants/AppColor.dart';
@@ -14,9 +16,10 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 
 class TabBarViewScreen extends StatelessWidget {
-  const TabBarViewScreen({super.key, required this.controller});
+  TabBarViewScreen({super.key, required this.shoe});
 
-  final MainScreenController controller;
+  final MainScreenController controller = Get.find<MainScreenController>();
+  final List<Data> shoe;
 
   @override
   Widget build(BuildContext context) {
@@ -27,24 +30,23 @@ class TabBarViewScreen extends StatelessWidget {
         // LARGE SHOE CARDS
         SizedBox(
           height: SizeConfig.screenHeight * 0.36,
-          child: Obx(            
-            () {
-              if(controller.isLoading.value){
-                return Center(child: CircularProgressIndicator());
-              }
-            
+          child: Obx(() {
+            if (controller.isLoading.value) {
+              return Center(child: CircularProgressIndicator());
+            }
+
             return ListView.builder(
               clipBehavior: Clip.none,
-              itemCount: controller.shoeList.length,
+              itemCount: 4,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                var shoe = controller.shoeList[index];
-                return LargeProductCard(controller: controller, name: shoe.name!, category: shoe.category!, imageUrl: shoe.image!,price: shoe.price!, title: shoe.title!, description: shoe.description!);
+                return LargeProductCard(
+                  controller: controller,
+                  shoe: shoe[index],
+                );
               },
             );
-            }
-            
-          ),
+          }),
         ),
 
         SizedBox(height: SizeConfig.screenHeight * 0.030),
@@ -61,7 +63,7 @@ class TabBarViewScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(right: SizeConfig.screenWidth * 0.03),
               child: InkWell(
-                onTap: () => Get.toNamed(Routes.showAllProduct),
+                onTap: () => Get.to(() => ShowAllProduct(shoe: shoe)),
                 child: Row(
                   // mainAxisSize: MainAxisSize.min,
                   children: [
@@ -87,15 +89,21 @@ class TabBarViewScreen extends StatelessWidget {
         SizedBox(
           height: SizeConfig.screenHeight * 0.16,
 
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: 4,
-            scrollDirection: Axis.horizontal,
+          child: Obx(() {
+            if (controller.isLoading.value) {
+              return Center(child: CircularProgressIndicator());
+            }
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: 4,
+              scrollDirection: Axis.horizontal,
 
-            itemBuilder: (context, index) {
-              return LatestShoesCard();
-            },
-          ),
+              itemBuilder: (context, index) {
+                final fromLast = (shoe.length - (index + 8));
+                return LatestShoesCard(shoe: shoe[fromLast]);
+              },
+            );
+          }),
         ),
       ],
     );
