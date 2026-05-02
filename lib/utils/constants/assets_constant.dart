@@ -4,13 +4,20 @@ class Images {
 
   // HOME SCREEN
   static const String topImage = "assets/Images/top.png";
-  static const String sample1 = "assets/Images/sample1.png";
-  static const String sample2 = "assets/Images/sample2.jpg";
-  static const String sample3 = "assets/Images/sample3.png";
-  static const String sample4 = "assets/Images/sample4.png";
-  static const String sample5 = "assets/Images/sample5.png";
-  static const String sample6 = "assets/Images/sample6.png";
-  static const String sample7 = "assets/Images/sample7.png";
+  
+
+  // BRANDS
+  static const String nike = "assets/Images/brands/nike.png";
+  static const String asics = "assets/Images/brands/asics.png";
+  static const String puma = "assets/Images/brands/puma.png";
+  static const String adidas = "assets/Images/brands/adidas.png";
+
+  // NAV BAR
+  static const String homeSelected = "assets/Images/navBar/home0.svg";
+  static const String homeUnselected = "assets/Images/navBar/home1.svg";
+  static const String searchSelected = "assets/Images/navBar/search1.svg";
+  static const String searchUnselected = "assets/Images/navBar/search0.svg";
+
 
   // ONBOARD
   static const String onboard1 = "assets/Images/onboarding/onboard1.svg";

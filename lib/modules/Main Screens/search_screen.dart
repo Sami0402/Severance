@@ -1,6 +1,8 @@
 import 'package:e_commerce_app/controllers/main_screen_controller.dart';
+import 'package:e_commerce_app/modules/Main%20Screens/widgets/bottomSheetFilter.dart';
 import 'package:e_commerce_app/modules/Main%20Screens/widgets/productCard.dart';
 import 'package:e_commerce_app/utils/constants/AppColor.dart';
+import 'package:e_commerce_app/utils/constants/assets_constant.dart';
 import 'package:e_commerce_app/utils/constants/typography.dart';
 import 'package:e_commerce_app/utils/helpers/helpers.dart';
 import 'package:e_commerce_app/widgets/customTextField.dart';
@@ -10,7 +12,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -64,33 +65,7 @@ class SearchScreen extends StatelessWidget {
                     ),
                   ),
 
-                  InkWell(
-                    onTap: () {
-                      Get.bottomSheet(
-                        Container(
-                          height: SizeConfig.screenHeight * 0.4,
-                          decoration: BoxDecoration(
-                            color: Appcolor.WHITE,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15),
-                            ),
-                          ),
-                          child: Center(child: Text('This is a BottomSheet')),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      height: SizeConfig.screenHeight * 0.076,
-                      width: SizeConfig.screenWidth * 0.14,
-                      margin: EdgeInsets.all(SizeConfig.screenHeight * 0.005),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Icon(Icons.filter_list, color: Appcolor.BLACK),
-                    ),
-                  ),
+                  BottomSheetFilter(controller: controller),
                 ],
               ),
               SizedBox(height: SizeConfig.screenHeight * 0.03),
@@ -127,3 +102,4 @@ class SearchScreen extends StatelessWidget {
     );
   }
 }
+

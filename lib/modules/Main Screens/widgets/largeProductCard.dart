@@ -24,6 +24,7 @@ class LargeProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     
     final String fullImageUrl = controller.url + shoe.image!;
+    
 
     return GestureDetector(
       onTap: () {
@@ -69,6 +70,7 @@ class LargeProductCard extends StatelessWidget {
                   child: Obx(
                     () => IconButton(
                       onPressed: () {
+                        
                         controller.toggleLike(shoe);
                       },
                       icon: shoe.isLiked.value == true

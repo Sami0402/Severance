@@ -32,6 +32,7 @@ class TabBarViewScreen extends StatelessWidget {
           height: SizeConfig.screenHeight * 0.36,
           child: Obx(() {
             if (controller.isLoading.value) {
+              
               return Center(child: CircularProgressIndicator());
             }
 

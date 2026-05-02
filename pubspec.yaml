@@ -71,6 +71,8 @@ flutter:
   assets:
     - assets/fonts/
     - assets/Images/
+    - assets/Images/brands/
+    - assets/Images/navBar/
     - assets/Images/onboarding/
     - assets/Images/categories/
     - assets/Images/promo_banners/

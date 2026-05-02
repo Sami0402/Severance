@@ -16,27 +16,38 @@ class MainScreen extends StatelessWidget {
     final MainScreenController controller = Get.find<MainScreenController>();
 
     return Scaffold(
-
       body: SafeArea(
-        child: SizedBox(
-          height: MediaQuery.sizeOf(context).height,
-          width: MediaQuery.sizeOf(context).width,
-          child: PageView(
-            scrollDirection: Axis.horizontal,
-            controller: controller.pageController,
-            onPageChanged: controller.changePage,
+        child: Stack(
+          children: [
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height,
+              width: MediaQuery.sizeOf(context).width,
+              child: PageView(
+                scrollDirection: Axis.horizontal,
+                controller: controller.pageController,
+                onPageChanged: controller.changePage,
 
-            children: [
-              const HomeScreen(),
-              SearchScreen(),
-              const FavouriteScreen(),
-              const CartScreen(),
-              const ProfileScreen(),
-            ],
-          ),
+                children: [
+                  const HomeScreen(),
+                  SearchScreen(),
+                  const FavouriteScreen(),
+                  const CartScreen(),
+                  const ProfileScreen(),
+                ],
+              ),
+            ),
+
+            Positioned(
+              bottom: 0.2,
+              left: 0.1,
+              right: 0.1,
+              child: const CustomBottomNavBar(),
+            ),
+          ],
         ),
       ),
-      bottomNavigationBar: const CustomBottomNavBar(),
+      
     );
+
   }
 }

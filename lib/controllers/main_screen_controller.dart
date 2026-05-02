@@ -1,12 +1,14 @@
 import 'package:e_commerce_app/controllers/Auth_controller/auth_controller.dart';
 import 'package:e_commerce_app/models/shoe_model.dart';
 import 'package:e_commerce_app/services/api_service.dart';
+import 'package:e_commerce_app/utils/constants/assets_constant.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_ticket_provider_mixin.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:flutter/material.dart';
+import 'package:get/state_manager.dart';
 
 class MainScreenController extends GetxController
     with GetTickerProviderStateMixin {
@@ -15,9 +17,9 @@ class MainScreenController extends GetxController
   final TextEditingController searchQuery = TextEditingController();
 
   // FOR PHYSICAL DEVICE
-  // final String url = "http://192.168.1.100:3000/uploads/";
+  final String url = "http://192.168.1.100:3000/uploads/";
   // FOR EMULATOR
-  final String url = "http://10.0.2.2:3000/uploads/";
+  // final String url = "http://10.0.2.2:3000/uploads/";
 
   // BottomNavBar
   final PageController pageController = PageController();
@@ -38,17 +40,29 @@ class MainScreenController extends GetxController
   // HOMESCREEN -----------------
   // TabBarView on HomeScreen
   late TabController tabController;
-
   RxBool isLiked = false.obs;
-
   final RxBool isLoading = true.obs;
 
   // ALL SHOES
   final RxList<Data> shoeList = <Data>[].obs;
-
   final List<Data> menShoes = [];
   final List<Data> womenShoes = [];
   final List<Data> kidsShoes = [];
+
+  // FOR FILTER
+  final List brands = [
+    [Images.nike, 'nike'],
+    [Images.adidas, 'adidas'],
+    [Images.asics, 'asics'],
+    [Images.puma, 'puma'],
+  ];
+  var selectedBrand = (-1).obs;
+
+  // SEARCH FUNCTION
+  final RxList filteredItems = [].obs;
+  final RxList filtereByBrandItems = [].obs;
+
+  var priceRange = const RangeValues(50, 300).obs;
 
   void fetchAllShoes() async {
     try {
@@ -60,6 +74,8 @@ class MainScreenController extends GetxController
       List<Data> shoes = model.data!;
 
       shoeList.value = shoes;
+      filteredItems.assignAll(shoeList);
+      filtereByBrandItems.assignAll(shoeList);
 
       menShoes.addAll(shoeList.where((shoe) => shoe.category == "Men"));
       womenShoes.addAll(shoeList.where((shoe) => shoe.category == "Women"));
@@ -75,9 +91,7 @@ class MainScreenController extends GetxController
     shoe.isLiked.value = !shoe.isLiked.value;
   }
 
-  // SEARCH FUNCTION
-  final RxList filteredItems = [].obs;
-
+  // BY TEXTFIELD
   void filterSearch(String query) {
     if (query.isEmpty) {
       filteredItems.assignAll(shoeList);
@@ -93,6 +107,48 @@ class MainScreenController extends GetxController
     }
   }
 
+  //  BY BUTTON
+  void filterbyPrice(RangeValues range) {
+    priceRange.value = range;
+    if (filtereByBrandItems.isEmpty) {
+      filteredItems.assignAll(
+        shoeList
+            .where(
+              (shoe) =>
+                  range.start.toInt() <= shoe.price! &&
+                  shoe.price! <= range.end.toInt(),
+            )
+            .toList(),
+      );
+    } else {
+      filteredItems.assignAll(
+        filtereByBrandItems
+            .where(
+              (shoe) =>
+                  range.start.toInt() <= shoe.price! &&
+                  shoe.price! <= range.end.toInt(),
+            )
+            .toList(),
+      );
+    }
+  }
+
+  void filterbyBrand(String? brand) {
+
+    if (brand == null){
+      filteredItems.assignAll(
+      shoeList,
+    );
+    } else {
+       filteredItems.assignAll(
+      shoeList.where((shoe) => shoe.brand!.toLowerCase() == brand).toList(),
+    );
+    }
+   
+    priceRange.value = RangeValues(50, 300);
+    filtereByBrandItems.assignAll(filteredItems);
+  }
+
   // Truncate text with specified Max Length
   String truncateWithEllipsis(String text, int maxLength) {
     if (text.length <= maxLength) {
@@ -105,7 +161,6 @@ class MainScreenController extends GetxController
   void onInit() {
     super.onInit();
     fetchAllShoes();
-    filteredItems.assignAll(shoeList);
     tabController = TabController(length: 3, vsync: this);
   }
 

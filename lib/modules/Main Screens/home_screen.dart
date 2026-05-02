@@ -50,7 +50,7 @@ class HomeScreen extends StatelessWidget {
               // CATEGORY SCROLLER / TabBar
               Padding(
                 padding: EdgeInsetsGeometry.only(
-                  top: SizeConfig.screenHeight * 0.17,
+                  top: SizeConfig.screenHeight * 0.18,
                 ),
                 child: TabBar(
                   controller: controller.tabController,
