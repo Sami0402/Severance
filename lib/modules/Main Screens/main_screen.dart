@@ -23,6 +23,7 @@ class MainScreen extends StatelessWidget {
               height: MediaQuery.sizeOf(context).height,
               width: MediaQuery.sizeOf(context).width,
               child: PageView(
+                
                 scrollDirection: Axis.horizontal,
                 controller: controller.pageController,
                 onPageChanged: controller.changePage,

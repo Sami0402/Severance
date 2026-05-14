@@ -1,4 +1,7 @@
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+
+
 class ShoeModel {
   bool? success;
   List<Data>? data;
@@ -24,6 +27,7 @@ class ShoeModel {
     return data;
   }
 }
+
 
 class Data {
   String? sId;
@@ -137,24 +141,4 @@ class Sizes {
     isSelected.value = value;
   }
 }
-// class Sizes {
-//   String? size;
-//   bool? isSelected;
-//   String? sId;
 
-//   Sizes({this.size, this.isSelected, this.sId});
-
-//   Sizes.fromJson(Map<String, dynamic> json) {
-//     size = json['size'];
-//     isSelected = json['isSelected'];
-//     sId = json['_id'];
-//   }
-
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = new Map<String, dynamic>();
-//     data['size'] = this.size;
-//     data['isSelected'] = this.isSelected;
-//     data['_id'] = this.sId;
-//     return data;
-//   }
-// }

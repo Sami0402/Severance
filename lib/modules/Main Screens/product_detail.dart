@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:e_commerce_app/controllers/main_screen_controller.dart';
 import 'package:e_commerce_app/models/shoe_model.dart';
+import 'package:e_commerce_app/services/api_service.dart';
 import 'package:e_commerce_app/utils/constants/AppColor.dart';
 import 'package:e_commerce_app/utils/constants/typography.dart';
 import 'package:e_commerce_app/utils/helpers/helpers.dart';
@@ -77,8 +78,10 @@ class ProductDetail extends StatelessWidget {
                           // FAVOURITE
                           Obx(
                             () => IconButton(
-                              onPressed: () {
+                              onPressed: () async{
                                 controller.toggleLike(shoe);
+                                await ApiService.toggleLike(shoe.id!);
+                                await controller.getWishlist();
                               },
                               icon: shoe.isLiked.value == true
                                   ? Icon(

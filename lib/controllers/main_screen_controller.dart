@@ -17,9 +17,9 @@ class MainScreenController extends GetxController
   final TextEditingController searchQuery = TextEditingController();
 
   // FOR PHYSICAL DEVICE
-  final String url = "http://192.168.1.100:3000/uploads/";
+  // final String url = "http://192.168.1.100:3000/uploads/";
   // FOR EMULATOR
-  // final String url = "http://10.0.2.2:3000/uploads/";
+  final String url = "http://10.0.2.2:3000/uploads/";
 
   // BottomNavBar
   final PageController pageController = PageController();
@@ -40,7 +40,7 @@ class MainScreenController extends GetxController
   // HOMESCREEN -----------------
   // TabBarView on HomeScreen
   late TabController tabController;
-  RxBool isLiked = false.obs;
+  // RxBool isLiked = false.obs;
   final RxBool isLoading = true.obs;
 
   // ALL SHOES
@@ -48,6 +48,8 @@ class MainScreenController extends GetxController
   final List<Data> menShoes = [];
   final List<Data> womenShoes = [];
   final List<Data> kidsShoes = [];
+  final RxList<String> wishlistIds = <String>[].obs;
+  final RxList<Data> wishlistItems = <Data>[].obs;
 
   // FOR FILTER
   final List brands = [
@@ -64,7 +66,7 @@ class MainScreenController extends GetxController
 
   var priceRange = const RangeValues(50, 300).obs;
 
-  void fetchAllShoes() async {
+  Future<void> fetchAllShoes() async {
     try {
       isLoading(true);
       var result = await ApiService.getAllShoes();
@@ -81,15 +83,63 @@ class MainScreenController extends GetxController
       womenShoes.addAll(shoeList.where((shoe) => shoe.category == "Women"));
       kidsShoes.addAll(shoeList.where((shoe) => shoe.category == "Kids"));
     } catch (e) {
-      print(e);
+      throw Exception(e);
     } finally {
       isLoading(false);
     }
   }
 
-  void toggleLike(Data shoe) {
-    shoe.isLiked.value = !shoe.isLiked.value;
+  void toggleLike(Data shoe) async{
+    shoe.isLiked.value = !shoe.isLiked.value;   
   }
+
+  Future<void> getWishlist() async {
+    try {
+      final result = await ApiService.getWishlist();
+
+      print(result["wishlist"]);
+
+      wishlistIds.assignAll(result["wishlist"].cast<String>());
+
+      wishlistItems.assignAll(
+        shoeList.where((shoe) => wishlistIds.contains(shoe.id.toString())),
+      );
+
+      print(wishlistItems);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> syncLikedStates() async{
+   
+    
+    shoeList.assignAll(
+      shoeList.map(
+        (shoe) {
+          shoe.isLiked.value = wishlistIds.contains(shoe.id.toString());
+          return shoe;
+        },
+      ).toList(),
+    );
+  }
+
+  void getData() async {
+    try{
+      // GET ALL SHOES
+      await fetchAllShoes();
+
+      // GET WISHLIST ITEMS
+      await getWishlist();
+
+      // Sync Like 
+      await syncLikedStates();
+    } catch (e){
+      throw Exception(e);
+    }
+  }
+
+  
 
   // BY TEXTFIELD
   void filterSearch(String query) {
@@ -134,17 +184,14 @@ class MainScreenController extends GetxController
   }
 
   void filterbyBrand(String? brand) {
-
-    if (brand == null){
-      filteredItems.assignAll(
-      shoeList,
-    );
+    if (brand == null) {
+      filteredItems.assignAll(shoeList);
     } else {
-       filteredItems.assignAll(
-      shoeList.where((shoe) => shoe.brand!.toLowerCase() == brand).toList(),
-    );
+      filteredItems.assignAll(
+        shoeList.where((shoe) => shoe.brand!.toLowerCase() == brand).toList(),
+      );
     }
-   
+
     priceRange.value = RangeValues(50, 300);
     filtereByBrandItems.assignAll(filteredItems);
   }
@@ -160,7 +207,7 @@ class MainScreenController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    fetchAllShoes();
+    getData();
     tabController = TabController(length: 3, vsync: this);
   }
 

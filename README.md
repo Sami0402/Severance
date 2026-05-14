@@ -16,6 +16,6 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 
-// TODO 
+// TODO Make changes in ShoeModel (with reactive variables) so that we can create Hive Adapters 
 
 

@@ -4,9 +4,12 @@ import 'package:e_commerce_app/utils/constants/routes.dart';
 import 'package:e_commerce_app/utils/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox('favoritesBox');
   runApp(const MyApp());
 }
 

@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 class FavouriteScreen extends StatelessWidget {
   const FavouriteScreen({super.key});
@@ -15,6 +16,7 @@ class FavouriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
+    
     final MainScreenController controller = Get.find<MainScreenController>();
     return Scaffold(
       body: SafeArea(
@@ -38,21 +40,24 @@ class FavouriteScreen extends StatelessWidget {
                 SizedBox(height: MediaQuery.sizeOf(context).height * 0.05),
 
                 // CARDS
-                SizedBox(
-                  // height: SizeConfig.screenHeight,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: 6,
-
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          bottom: SizeConfig.screenHeight * 0.025,
-                        ),
-                        child: FavProductCard(),
-                      );
-                    },
+                Obx(
+                  ()=> SizedBox(
+                    // height: SizeConfig.screenHeight,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: controller.wishlistItems.length,
+                  
+                      itemBuilder: (context, index) {
+                        final wishlistShoe = controller.wishlistItems[index];
+                        return Padding(
+                          padding: EdgeInsets.only(
+                            bottom: SizeConfig.screenHeight * 0.025,
+                          ),
+                          child: FavProductCard(shoe: wishlistShoe,),
+                        );
+                      },
+                    ),
                   ),
                 ),
                 SizedBox(height: MediaQuery.sizeOf(context).height * 0.095),
