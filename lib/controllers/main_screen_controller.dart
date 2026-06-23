@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/controllers/Auth_controller/auth_controller.dart';
+import 'package:e_commerce_app/models/cart_model.dart';
 import 'package:e_commerce_app/models/shoe_model.dart';
 import 'package:e_commerce_app/services/api_service.dart';
 import 'package:e_commerce_app/utils/constants/assets_constant.dart';
@@ -17,9 +18,13 @@ class MainScreenController extends GetxController
   final TextEditingController searchQuery = TextEditingController();
 
   // FOR PHYSICAL DEVICE
-  // final String url = "http://192.168.1.100:3000/uploads/";
+  final String url = "http://192.168.1.100:3000/uploads/";
+
+  // TEMP
+  // final String url = "192.168.1.15:3000/uploads/";
+
   // FOR EMULATOR
-  final String url = "http://10.0.2.2:3000/uploads/";
+  // final String url = "http://10.0.2.2:3000/uploads/";
 
   // BottomNavBar
   final PageController pageController = PageController();
@@ -40,7 +45,6 @@ class MainScreenController extends GetxController
   // HOMESCREEN -----------------
   // TabBarView on HomeScreen
   late TabController tabController;
-  // RxBool isLiked = false.obs;
   final RxBool isLoading = true.obs;
 
   // ALL SHOES
@@ -50,6 +54,8 @@ class MainScreenController extends GetxController
   final List<Data> kidsShoes = [];
   final RxList<String> wishlistIds = <String>[].obs;
   final RxList<Data> wishlistItems = <Data>[].obs;
+  final RxList<Cart> cartItems = <Cart>[].obs;
+  
 
   // FOR FILTER
   final List brands = [
@@ -89,8 +95,8 @@ class MainScreenController extends GetxController
     }
   }
 
-  void toggleLike(Data shoe) async{
-    shoe.isLiked.value = !shoe.isLiked.value;   
+  void toggleLike(Data shoe) async {
+    shoe.isLiked.value = !shoe.isLiked.value;
   }
 
   Future<void> getWishlist() async {
@@ -111,35 +117,72 @@ class MainScreenController extends GetxController
     }
   }
 
-  Future<void> syncLikedStates() async{
-   
-    
+  Future<void> syncLikedStates() async {
     shoeList.assignAll(
-      shoeList.map(
-        (shoe) {
-          shoe.isLiked.value = wishlistIds.contains(shoe.id.toString());
-          return shoe;
-        },
-      ).toList(),
+      shoeList.map((shoe) {
+        shoe.isLiked.value = wishlistIds.contains(shoe.id.toString());
+        return shoe;
+      }).toList(),
     );
   }
 
   void getData() async {
-    try{
+    try {
       // GET ALL SHOES
       await fetchAllShoes();
 
       // GET WISHLIST ITEMS
       await getWishlist();
 
-      // Sync Like 
+      // Sync Like
       await syncLikedStates();
-    } catch (e){
+    } catch (e) {
       throw Exception(e);
     }
   }
 
-  
+  Future<void> removeWishlistItem(int shoeId, Data shoe) async {
+    // final index = wishlistItems.indexOf(shoeId);
+    wishlistItems.removeWhere((shoe) => shoe.id! == shoeId);
+    await ApiService.toggleLike(shoeId);
+    await getWishlist();
+    toggleLike(shoe);
+  }
+
+
+  // CART
+  Future<void> addToCart(int shoeId, String selectedSize) async{
+    try {
+      final result = await ApiService.addToCart(shoeId, selectedSize);
+      CartModel model = CartModel.fromJson(result);
+      cartItems.value = model.cart!;
+    } catch(e){
+      throw Exception(e);
+    }
+  }
+
+  Future<void> getCartItems() async{
+    try {
+      final result = await ApiService.getCartItems();
+
+      CartModel model = CartModel.fromJson(result);
+
+      cartItems.value = model.cart!; 
+      
+    } catch(e){
+      throw Exception(e);
+    }
+   }
+
+  Future<void> deleteCartItem(int shoeId, String selectedSize) async{
+    try{
+      final result = await ApiService.deleteCartItem(shoeId, selectedSize);
+      CartModel model = CartModel.fromJson(result);
+      cartItems.value =  model.cart!;
+    } catch(e){
+      throw Exception(e);
+    }
+  }
 
   // BY TEXTFIELD
   void filterSearch(String query) {
@@ -208,6 +251,7 @@ class MainScreenController extends GetxController
   void onInit() {
     super.onInit();
     getData();
+    getCartItems();
     tabController = TabController(length: 3, vsync: this);
   }
 

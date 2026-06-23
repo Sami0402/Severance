@@ -26,7 +26,6 @@ class ProductDetail extends StatelessWidget {
 
     SizeConfig.init(context);
 
-   
     final String fullImageUrl = controller.url + shoe.image!;
 
     return Scaffold(
@@ -78,7 +77,7 @@ class ProductDetail extends StatelessWidget {
                           // FAVOURITE
                           Obx(
                             () => IconButton(
-                              onPressed: () async{
+                              onPressed: () async {
                                 controller.toggleLike(shoe);
                                 await ApiService.toggleLike(shoe.id!);
                                 await controller.getWishlist();
@@ -297,7 +296,20 @@ class ProductDetail extends StatelessWidget {
                           SizedBox(
                             height: MediaQuery.sizeOf(context).height * 0.020,
                           ),
-                          solidTextButton(onPressed: () {}, text: "Add to bag"),
+                          solidTextButton(
+                            onPressed: () {
+                              final selectedSize = shoe.sizes!
+                                  .where(
+                                    (size) => size.isSelected.value == true,
+                                  )
+                                  .toList();
+                              controller.addToCart(
+                                shoe.id!,
+                                selectedSize[0].size!,
+                              );
+                            },
+                            text: "Add to bag",
+                          ),
                         ],
                       ),
                     ),

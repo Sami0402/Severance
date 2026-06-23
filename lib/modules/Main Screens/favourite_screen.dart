@@ -40,26 +40,27 @@ class FavouriteScreen extends StatelessWidget {
                 SizedBox(height: MediaQuery.sizeOf(context).height * 0.05),
 
                 // CARDS
-                Obx(
-                  ()=> SizedBox(
+                 SizedBox(
                     // height: SizeConfig.screenHeight,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: controller.wishlistItems.length,
-                  
-                      itemBuilder: (context, index) {
-                        final wishlistShoe = controller.wishlistItems[index];
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            bottom: SizeConfig.screenHeight * 0.025,
-                          ),
-                          child: FavProductCard(shoe: wishlistShoe,),
-                        );
-                      },
+                    child: Obx(
+                      ()=> ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: controller.wishlistItems.length,
+                                        
+                        itemBuilder: (context, index) {
+                          final shoe = controller.wishlistItems[index];
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              bottom: SizeConfig.screenHeight * 0.025,
+                            ),
+                            child: FavProductCard(shoe: shoe,),
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
+                
                 SizedBox(height: MediaQuery.sizeOf(context).height * 0.095),
               ],
             ),

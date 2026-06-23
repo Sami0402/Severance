@@ -15,7 +15,7 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-
-// TODO Make changes in ShoeModel (with reactive variables) so that we can create Hive Adapters 
+// TODO Check if addToCart flow is working properly or not  
+// TODO Complete Delte from Cart   
 
 
