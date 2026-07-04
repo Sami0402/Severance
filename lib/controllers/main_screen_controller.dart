@@ -2,6 +2,7 @@ import 'package:e_commerce_app/controllers/Auth_controller/auth_controller.dart'
 import 'package:e_commerce_app/models/cart_model.dart';
 import 'package:e_commerce_app/models/shoe_model.dart';
 import 'package:e_commerce_app/services/api_service.dart';
+import 'package:e_commerce_app/utils/constants/api_constants.dart';
 import 'package:e_commerce_app/utils/constants/assets_constant.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -18,14 +19,9 @@ class MainScreenController extends GetxController
 
   final TextEditingController searchQuery = TextEditingController();
 
-  // FOR PHYSICAL DEVICE
-  final String url = "http://192.168.1.100:3000/uploads/";
+  // BASE URL
+  final String url = "${ApiConstants.baseUrl}/uploads/";
 
-  // TEMP
-  // final String url = "192.168.1.15:3000/uploads/";
-
-  // FOR EMULATOR
-  // final String url = "http://10.0.2.2:3000/uploads/";
 
   // BottomNavBar
   final PageController pageController = PageController();

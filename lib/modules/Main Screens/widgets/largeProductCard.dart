@@ -6,7 +6,6 @@ import 'package:e_commerce_app/modules/Main%20Screens/product_detail.dart';
 import 'package:e_commerce_app/services/api_service.dart';
 import 'package:e_commerce_app/utils/constants/AppColor.dart';
 import 'package:e_commerce_app/utils/constants/typography.dart';
-import 'package:e_commerce_app/utils/helpers/helpers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';

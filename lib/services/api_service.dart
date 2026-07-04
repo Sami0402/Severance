@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:flutter/rendering.dart';
+import 'package:e_commerce_app/utils/constants/api_constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,20 +11,16 @@ class ApiService {
     String password,
   ) async {
     
-    // WORKS FOR ANDROID EMULATOR
-    // final url = Uri.parse("http://10.0.2.2:3000/login");
-    
-    //TEMP
-    // final url = Uri.parse("http://192.168.1.15:3000/login");
-    
-    // WORKS FOR REAL DEVICE 
-    final url = Uri.parse("http://192.168.1.100:3000/login");
+
+    final url = Uri.parse("${ApiConstants.baseUrl}/login"); 
 
     final response = await http.post(
       url,
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({"email": email, "password": password}),
     );
+    print(response.statusCode);
+    print(response.body);
     return jsonDecode(response.body);
   }
 
@@ -37,14 +32,10 @@ class ApiService {
     String email,
     String password,
   ) async {
-    // WORKS FOR ANDROID EMULATOR
-    final url = Uri.parse("http://10.0.2.2:3000/register");
 
-    // WORKS FOR REAL DEVICE 
-    // final url = Uri.parse("192.168.1.100:3000/register");
+    
+    final url = Uri.parse("${ApiConstants.baseUrl}/register");
 
-    // TEMP
-    // final url = Uri.parse("http://192.168.1.15:3000/register");
 
     final response = await http.post(
       url,
@@ -64,15 +55,9 @@ class ApiService {
 
   // FETCH SHOES
   static Future<Map<String, dynamic>> getAllShoes() async{
-    // WORKS FOR ANDROID EMULATOR
-    // final url = Uri.parse("http://10.0.2.2:3000/Shoes");
 
-    //TEMP 
-    // final url = Uri.parse("192.168.1.15:3000/Shoes");
+    final url = Uri.parse("${ApiConstants.baseUrl}/Shoes");
 
-
-    // WORKS FOR REAL DEVICE 
-    final url = Uri.parse("http://192.168.1.100:3000/Shoes");
 
     final response = await http.get(url);
 
@@ -88,11 +73,11 @@ class ApiService {
 
   // Toggle Wishlist 
   static Future<Map<String, dynamic>> toggleLike(int shoeId) async{
-    // WORKS FOR ANDROID EMULATOR
-    // final url = Uri.parse("http://10.0.2.2:3000/wishlist/toggle/$shoeId");
 
-    // WORKS FOR REAL DEVICE 
-    final url = Uri.parse("http://192.168.1.100:3000/wishlist/toggle/$shoeId");
+
+    final url = Uri.parse("${ApiConstants.baseUrl}/wishlist/toggle/$shoeId");
+
+
 
     final prefs = await SharedPreferences.getInstance();
 
@@ -113,11 +98,8 @@ class ApiService {
   // GET Wishlist 
   static Future<Map<String, dynamic>> getWishlist() async{
 
-    // WORK FOR EMULATOR
-    // final url = Uri.parse("http://10.0.2.2:3000/wishlist");
+    final url = Uri.parse("${ApiConstants.baseUrl}/wishlist");
 
-    // WORKS FOR REAL DEVICE 
-    final url = Uri.parse("http://192.168.1.100:3000/wishlist");
 
     final prefs = await SharedPreferences.getInstance();
 
@@ -136,11 +118,8 @@ class ApiService {
   // ADD TO CART
   static Future<Map<String, dynamic>> addToCart(int shoeId, String selectedSize) async{
 
-    // WORK FOR EMULATOR
-    // final url = Uri.parse("http://10.0.2.2:3000/addToCart/$shoeId");
+    final url = Uri.parse("${ApiConstants.baseUrl}/addToCart/$shoeId");
 
-    // WORKS FOR REAL DEVICE 
-    final url = Uri.parse("http://192.168.1.100:3000/addToCart/$shoeId");
 
     final prefs = await SharedPreferences.getInstance();
 
@@ -162,11 +141,10 @@ class ApiService {
 
   // GET CART ITEMS
   static Future<Map<String, dynamic>> getCartItems() async{
-    // WORK FOR EMULATOR
-    // final url = Uri.parse("http://10.0.2.2:3000/cart");
 
-    // WORKS FOR REAL DEVICE 
-    final url = Uri.parse("http://192.168.1.100:3000/cart");
+    // RENDER
+    final url = Uri.parse("${ApiConstants.baseUrl}/cart");
+
 
     final prefs = await SharedPreferences.getInstance();
 
@@ -184,11 +162,9 @@ class ApiService {
 
   // DELETE CART ITEM
   static Future<Map<String, dynamic>> deleteCartItem(int shoeId, String selectedSize) async{
-    // WORK FOR EMULATOR
-    // final url = Uri.parse("http://10.0.2.2:3000/cart");
 
-    // WORKS FOR REAL DEVICE 
-    final url = Uri.parse("http://192.168.1.100:3000/cart/$shoeId");
+    final url = Uri.parse("${ApiConstants.baseUrl}/cart/$shoeId");
+
 
     final prefs = await SharedPreferences.getInstance();
 
@@ -209,11 +185,9 @@ class ApiService {
   }
 
   static Future<Map<String, dynamic>> updateCartItem(int shoeId , String selectedSize, String action) async{
-     // WORK FOR EMULATOR
-    // final url = Uri.parse("http://10.0.2.2:3000/cart");
 
-    // WORKS FOR REAL DEVICE 
-    final url = Uri.parse("http://192.168.1.100:3000/cart/$shoeId");
+    final url = Uri.parse("${ApiConstants.baseUrl}/cart/$shoeId");
+
 
     final prefs = await SharedPreferences.getInstance();
 
