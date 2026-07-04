@@ -10,6 +10,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_ticket_provider_mixin.da
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreenController extends GetxController
     with GetTickerProviderStateMixin {
@@ -55,7 +56,6 @@ class MainScreenController extends GetxController
   final RxList<String> wishlistIds = <String>[].obs;
   final RxList<Data> wishlistItems = <Data>[].obs;
   final RxList<Cart> cartItems = <Cart>[].obs;
-  
 
   // FOR FILTER
   final List brands = [
@@ -71,6 +71,20 @@ class MainScreenController extends GetxController
   final RxList filtereByBrandItems = [].obs;
 
   var priceRange = const RangeValues(50, 300).obs;
+
+  static late SharedPreferences prefs;
+  static late String? token;
+  static late String? email;
+
+  static Future<void> getCurrentUser() async {
+    prefs = await SharedPreferences.getInstance();
+
+    token = prefs.getString("token");
+
+    email = prefs.getString("email");
+    print(email);
+
+  }
 
   Future<void> fetchAllShoes() async {
     try {
@@ -149,37 +163,86 @@ class MainScreenController extends GetxController
     toggleLike(shoe);
   }
 
-
-  // CART
-  Future<void> addToCart(int shoeId, String selectedSize) async{
+  Future<void> addFromWishlistToCart(
+    int shoeId,
+    String selectedSize,
+    Data shoe,
+  ) async {
     try {
       final result = await ApiService.addToCart(shoeId, selectedSize);
       CartModel model = CartModel.fromJson(result);
       cartItems.value = model.cart!;
-    } catch(e){
+      wishlistItems.removeWhere((shoe) => shoe.id! == shoeId);
+      await ApiService.toggleLike(shoeId);
+      await getWishlist();
+      toggleLike(shoe);
+    } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<void> getCartItems() async{
+  // CART
+  String get orderSummary {
+    RxInt subTotal = 0.obs;
+    if (cartItems.isEmpty) {
+      subTotal.value = 0;
+    } else {
+      for (var item in cartItems) {
+        print(item.quantity);
+        print(item.price!);
+        subTotal.value += (item.price! * item.quantity!);
+      }
+    }
+    return subTotal.value.toString();
+  }
+
+  Future<void> addToCart(int shoeId, String selectedSize) async {
+    try {
+      final result = await ApiService.addToCart(shoeId, selectedSize);
+      CartModel model = CartModel.fromJson(result);
+      cartItems.value = model.cart!;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> getCartItems() async {
     try {
       final result = await ApiService.getCartItems();
 
       CartModel model = CartModel.fromJson(result);
 
-      cartItems.value = model.cart!; 
-      
-    } catch(e){
+      cartItems.value = model.cart!;
+    } catch (e) {
       throw Exception(e);
     }
-   }
+  }
 
-  Future<void> deleteCartItem(int shoeId, String selectedSize) async{
-    try{
+  Future<void> deleteCartItem(int shoeId, String selectedSize) async {
+    try {
       final result = await ApiService.deleteCartItem(shoeId, selectedSize);
       CartModel model = CartModel.fromJson(result);
-      cartItems.value =  model.cart!;
-    } catch(e){
+      cartItems.value = model.cart!;
+      cartItems.refresh();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> updateCartItem(
+    int shoeId,
+    String selectedSize,
+    String action,
+  ) async {
+    try {
+      final result = await ApiService.updateCartItem(
+        shoeId,
+        selectedSize,
+        action,
+      );
+      CartModel model = CartModel.fromJson(result);
+      cartItems.value = model.cart!;
+    } catch (e) {
       throw Exception(e);
     }
   }
@@ -250,15 +313,34 @@ class MainScreenController extends GetxController
   @override
   void onInit() {
     super.onInit();
+    
     getData();
     getCartItems();
     tabController = TabController(length: 3, vsync: this);
   }
 
   @override
+  void onReady() {
+    getCurrentUser();
+    super.onReady();
+  }
+
+  @override
   void onClose() {
+    selectedIndex.close();
     pageController.dispose();
-    filteredItems.clear();
+    selectedIndex.close();
+    shoeList.close();
+    selectedBrand.close();
+    menShoes.clear();
+    womenShoes.clear();
+    kidsShoes.clear();
+    wishlistIds.close();
+    wishlistItems.close();
+    cartItems.close();
+    filteredItems.close();
+    filtereByBrandItems.close();
+    tabController.dispose();
     super.onClose();
   }
 }

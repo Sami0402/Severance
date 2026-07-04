@@ -20,7 +20,6 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final MainScreenController controller = Get.find<MainScreenController>();
 
-    
     final String fullImageUrl = controller.url + shoe.image!;
 
     return InkWell(
@@ -42,47 +41,17 @@ class ProductCard extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              // color: Colors.amber,
-              margin: EdgeInsets.only(top: SizeConfig.screenHeight * 0.035),
-
-              // height: SizeConfig.screenHeight * 0.18,
-              // width: SizeConfig.screenWidth,
+              margin: EdgeInsets.only(top: 45),
+              padding: EdgeInsets.symmetric(horizontal: 10),
               child: CachedNetworkImage(
                 imageUrl: fullImageUrl,
-                // fit: BoxFit.contain,
-                height: SizeConfig.screenHeight * 0.15,
-                width: SizeConfig.screenWidth * 0.35,
+                width: double.infinity,
               ),
             ),
-            // LIKE ICON
-            // Positioned(
-            //   right: SizeConfig.screenWidth * 0.0,
-            //   top: SizeConfig.screenHeight * 0.0,
-            //   child: Obx(
-            //     () => IconButton(
-            //       onPressed: () {
-            //         controller.isLiked.value = !controller.isLiked.value;
-            //       },
-            //       icon: controller.isLiked.value
-            //           ? Icon(
-            //               CupertinoIcons.heart_fill,
-            //               color: Colors.black,
-            //               size: SizeConfig.screenHeight * 0.025,
-            //             )
-            //           : Icon(
-            //               CupertinoIcons.heart,
-            //               color: Colors.grey.shade600.withValues(alpha: 0.5),
-            //               size: SizeConfig.screenHeight * 0.025,
-            //             ),
-            //     ),
-            //   ),
-            // ),
-            // SizedBox(height: SizeConfig.screenHeight * 0.003),
+
             Spacer(),
             Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.screenWidth * 0.048,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 18),
               child: Align(
                 alignment: AlignmentGeometry.centerLeft,
                 child: Text(
@@ -90,30 +59,28 @@ class ProductCard extends StatelessWidget {
                   maxLines: 2,
 
                   style: TypographyPoppins.displaySmall.copyWith(
-                    fontSize: SizeConfig.screenHeight * 0.025,
+                    fontSize: 22,
                     height: 1.1,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
             ),
-            SizedBox(height: SizeConfig.screenHeight * 0.01),
+            SizedBox(height: 10),
             Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.screenWidth * 0.048,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 16),
               child: Align(
                 alignment: AlignmentGeometry.centerLeft,
                 child: Text(
                   "\$${shoe.price}",
                   style: TypographyPoppins.labelSmall.copyWith(
-                    fontSize: 17,
+                    fontSize: 20,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
             ),
-            SizedBox(height: SizeConfig.screenHeight * 0.029),
+            SizedBox(height: 15),
           ],
         ),
       ),

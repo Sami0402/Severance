@@ -11,7 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
+
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 class LargeProductCard extends StatelessWidget {
@@ -34,13 +34,9 @@ class LargeProductCard extends StatelessWidget {
         Get.to(() => ProductDetail(shoe: shoe));
       },
       child: Container(
-        margin: EdgeInsets.only(
-          right: SizeConfig.screenWidth * 0.08,
-          left: SizeConfig.screenWidth * 0.025,
-        ),
-        height: SizeConfig.screenHeight * 0.36,
-        width: SizeConfig.screenWidth * 0.55,
+        margin: EdgeInsets.only(right: 23, left: 15),
 
+        width: 220,
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 245, 250, 252),
           borderRadius: BorderRadius.circular(8),
@@ -54,22 +50,15 @@ class LargeProductCard extends StatelessWidget {
           ],
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(
               children: [
-                // IMAGE
-                Container(
-                  padding: EdgeInsets.zero,
-                  height: SizeConfig.screenHeight * 0.12,
-                  width: SizeConfig.screenWidth * 0.60,
-                  // color: Colors.amber,
-                ),
                 // LIKE ICON
                 Positioned(
-                  right: SizeConfig.screenWidth * 0.009,
-                  top: SizeConfig.screenHeight * 0,
+                  right: 6,
+                  top: 4,
                   child: Obx(
                     () => IconButton(
                       onPressed: () async {
@@ -81,7 +70,7 @@ class LargeProductCard extends StatelessWidget {
                           ? Icon(
                               CupertinoIcons.heart_fill,
                               color: Colors.black54,
-                              size: SizeConfig.screenHeight * 0.028,
+                              size: 22,
                             )
                           : Icon(
                               CupertinoIcons.heart,
@@ -89,18 +78,14 @@ class LargeProductCard extends StatelessWidget {
                                 alpha: 0.5,
                               ),
 
-                              size: SizeConfig.screenHeight * 0.028,
+                              size: 22,
                             ),
                     ),
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(
-                    top: SizeConfig.screenHeight * 0.038,
-                  ),
-                  // color: Colors.blue,
-                  height: SizeConfig.screenHeight * 0.23,
-                  width: SizeConfig.screenWidth * 0.60,
+                  padding: EdgeInsets.only(top: 45),
+                  height: 190,
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8),
@@ -115,30 +100,26 @@ class LargeProductCard extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(height: 15),
             // SHOE NAME
             Container(
-              width: MediaQuery.of(context).size.width * 0.5,
-              margin: EdgeInsets.only(right: SizeConfig.screenWidth * 0.033),
-              padding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.screenWidth * 0.033,
-              ),
+              width: 220,
+              margin: EdgeInsets.only(right: 15),
+              padding: EdgeInsets.symmetric(horizontal: 15),
               child: Text(
                 maxLines: 2,
                 shoe.name!,
                 style: TypographyPoppins.displaySmall.copyWith(height: 1.1),
               ),
             ),
-            SizedBox(height: SizeConfig.screenHeight * 0.01),
-            // SHOE Cateogry & SHOE PRICE
+            SizedBox(height: 10),
+            // SHOE RATING & SHOE PRICE
             Padding(
-              padding: EdgeInsets.only(
-                left: SizeConfig.screenWidth * 0.035,
-                right: SizeConfig.screenWidth * 0.056,
-              ),
+              padding: EdgeInsets.only(left: 15, right: 22),
               child: Row(
                 children: [
                   RatingBar.readOnly(
-                    size: SizeConfig.screenHeight * 0.015,
+                    size: 15,
                     isHalfAllowed: true,
                     filledIcon: Icons.star,
                     filledColor: Colors.grey,
@@ -149,12 +130,12 @@ class LargeProductCard extends StatelessWidget {
                     initialRating: shoe.rating!,
                     maxRating: 5,
                   ),
-                  SizedBox(width: SizeConfig.screenWidth * 0.02),
+                  SizedBox(width: 5),
                   Text(
                     shoe.rating!.toString(),
                     style: TypographyPoppins.labelSmall.copyWith(
                       color: Colors.grey,
-                      fontSize: SizeConfig.screenHeight * 0.015,
+                      fontSize: 13,
                     ),
                   ),
                   Spacer(),
@@ -163,13 +144,12 @@ class LargeProductCard extends StatelessWidget {
                     style: TypographyPoppins.labelSmall.copyWith(
                       color: Appcolor.GREY,
                       fontWeight: FontWeight.w600,
-                      fontSize: SizeConfig.screenHeight * 0.030,
+                      fontSize: 25,
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: SizeConfig.screenHeight * 0.01),
           ],
         ),
       ),

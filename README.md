@@ -15,7 +15,9 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-// TODO Check if addToCart flow is working properly or not  
-// TODO Complete Delte from Cart   
+// TODO Complete Profile Section
+// TODO Complete Payment Integration (Optional)
+// Refine UI: remove Sizeconfig, add app icon, set splashScreens.
+  
 
 

@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_app/controllers/main_screen_controller.dart';
 import 'package:e_commerce_app/models/shoe_model.dart';
 import 'package:e_commerce_app/modules/Main%20Screens/product_detail.dart';
-import 'package:e_commerce_app/utils/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -26,13 +25,10 @@ class LatestShoesCard extends StatelessWidget {
       child: Align(
         alignment: Alignment.center,
         child: Container(
-          margin: EdgeInsets.only(
-            right: SizeConfig.screenWidth * 0.042,
-            left: SizeConfig.screenWidth * 0.02,
-          ),
+          margin: EdgeInsets.only(right: 14, left: 10),
 
-          height: SizeConfig.screenHeight * 0.13,
-          width: SizeConfig.screenWidth * 0.235,
+          height: 95,
+          width: 90,
           decoration: BoxDecoration(
             color: Colors.white,
 

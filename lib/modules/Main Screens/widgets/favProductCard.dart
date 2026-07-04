@@ -28,12 +28,48 @@ class FavProductCard extends StatelessWidget {
 
         // Add to cart
         startActionPane: ActionPane(
+          dismissible: DismissiblePane(
+            dismissalDuration: Duration(microseconds: 200),
+            onDismissed: () {
+              final selectedSize = shoe.sizes!
+                  .where((size) => size.isSelected.value == true)
+                  .toList();
+              controller.addFromWishlistToCart(
+                shoe.id!,
+                selectedSize[0].size!,
+                shoe,
+              );
+              Get.snackbar(
+                "Added Into Cart!!!",
+                "Please checkout your cart",
+                borderColor: Colors.grey,
+                borderWidth: 1,
+                backgroundColor: Colors.greenAccent.withValues(alpha: 0.3),
+              );
+            },
+            motion: StretchMotion(),
+          ),
           motion: const StretchMotion(),
           children: [
             Expanded(
               child: InkWell(
                 onTap: () async {
                   // ADD TO CART LOGIC
+                  final selectedSize = shoe.sizes!
+                      .where((size) => size.isSelected.value == true)
+                      .toList();
+                  controller.addFromWishlistToCart(
+                    shoe.id!,
+                    selectedSize[0].size!,
+                    shoe,
+                  );
+                  Get.snackbar(
+                    "Added Into Cart!!!",
+                    "Please checkout your cart",
+                    borderColor: Colors.grey,
+                    borderWidth: 1,
+                    backgroundColor: Colors.greenAccent.withValues(alpha: 0.3),
+                  );
                 },
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
@@ -97,12 +133,11 @@ class FavProductCard extends StatelessWidget {
 
         // Actual card
         child: Container(
-          height: SizeConfig.screenHeight * 0.17,
-          width: SizeConfig.screenWidth,
+          width: double.infinity,
           padding: EdgeInsets.symmetric(
-            horizontal: SizeConfig.screenWidth * 0.05,
-            vertical: SizeConfig.screenHeight * 0.018,
-          ),
+            horizontal: 15,
+            vertical: 20,
+          ).copyWith(left: 20),
           decoration: BoxDecoration(
             color: Appcolor.WHITE,
             borderRadius: BorderRadius.circular(12),
@@ -112,8 +147,8 @@ class FavProductCard extends StatelessWidget {
             children: [
               // Image
               Container(
-                height: SizeConfig.screenHeight * 0.14,
-                width: SizeConfig.screenWidth * 0.25,
+                height: 100,
+                width: 100,
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(10),
@@ -123,7 +158,7 @@ class FavProductCard extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
               ),
-              SizedBox(width: SizeConfig.screenWidth * 0.04),
+              SizedBox(width: 18),
 
               // NAME CATEGORY PRICE
               Column(
@@ -131,7 +166,7 @@ class FavProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: SizeConfig.screenWidth * 0.45,
+                    width: 180,
                     child: Text(
                       shoe.name!,
 
@@ -142,14 +177,14 @@ class FavProductCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: SizeConfig.screenHeight * 0.003),
+                  SizedBox(height: 8),
                   Text(
                     shoe.category!,
                     style: TypographyPoppins.labelSmall.copyWith(
                       color: Appcolor.GREY,
                     ),
                   ),
-                  SizedBox(height: SizeConfig.screenWidth * 0.012),
+                  SizedBox(height: 8),
                   Text(
                     "\$${shoe.price.toString()}",
                     style: TypographyPoppins.labelSmall.copyWith(

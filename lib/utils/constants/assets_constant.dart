@@ -4,6 +4,13 @@ class Images {
 
   // HOME SCREEN
   static const String topImage = "assets/Images/top.png";
+
+  // WISHLIST & Cart
+  static const String emptyWishlist = "assets/Images/empty_wishlist.png";
+  static const String emptyCart = "assets/Images/empty_cart.png";
+
+
+  static const String purchased = "assets/Images/purchased.png";
   
 
   // BRANDS

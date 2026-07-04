@@ -200,11 +200,37 @@ class ApiService {
         "Content-Type": "application/json",
         "Authorization": "Bearer ${token!}",
       },
-      body: {
+      body: jsonEncode( {
         "selectedSize": selectedSize
-      }
+      }),
       );
 
     return jsonDecode(response.body);
+  }
+
+  static Future<Map<String, dynamic>> updateCartItem(int shoeId , String selectedSize, String action) async{
+     // WORK FOR EMULATOR
+    // final url = Uri.parse("http://10.0.2.2:3000/cart");
+
+    // WORKS FOR REAL DEVICE 
+    final url = Uri.parse("http://192.168.1.100:3000/cart/$shoeId");
+
+    final prefs = await SharedPreferences.getInstance();
+
+    final token = prefs.getString("token");
+
+    final response = await http.patch(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${token!}",
+      },
+      body: jsonEncode({
+         "selectedSize" : selectedSize,
+        "action" : action
+      })
+      );
+
+      return jsonDecode(response.body);
   }
 }

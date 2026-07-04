@@ -10,7 +10,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
 
 class CartProductCard extends StatelessWidget {
   const CartProductCard({super.key, required this.shoe});
@@ -22,6 +21,10 @@ class CartProductCard extends StatelessWidget {
     final MainScreenController controller = Get.find<MainScreenController>();
     final String fullImageUrl = controller.url + shoe.image!;
 
+    final quantity = shoe.quantity!;
+    final price = shoe.price!;
+    final int totalPrice = quantity * price;
+
     return InkWell(
       onTap: () => {
         // PRODUCT DETAIL
@@ -30,12 +33,13 @@ class CartProductCard extends StatelessWidget {
         children: [
           Container(
             width: SizeConfig.screenWidth,
-            padding: EdgeInsets.symmetric(vertical: 12).copyWith(left: 14),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 13),
             decoration: BoxDecoration(
               color: Appcolor.WHITE,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Container(
@@ -101,7 +105,8 @@ class CartProductCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "\$${shoe.price!.toString()}",
+                          // "\$${shoe.price!.toString()}",
+                          "\$$totalPrice",
                           style: TypographyPoppins.displaySmall.copyWith(
                             fontSize: 18,
                           ),
@@ -118,15 +123,31 @@ class CartProductCard extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
+                                // Decrease
                                 IconButton(
                                   padding: EdgeInsets.zero,
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    controller.updateCartItem(
+                                      shoe.id!,
+                                      shoe.selectedSize!,
+                                      'decrease',
+                                    );
+                                    controller.orderSummary;
+                                  },
                                   icon: Icon(Icons.remove),
                                 ),
                                 Text(shoe.quantity!.toString()),
+                                // INCREASE
                                 IconButton(
                                   padding: EdgeInsets.zero,
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    controller.updateCartItem(
+                                      shoe.id!,
+                                      shoe.selectedSize!,
+                                      'increase',
+                                    );
+                                    controller.orderSummary;
+                                  },
                                   icon: Icon(Icons.add),
                                 ),
                               ],
@@ -135,7 +156,7 @@ class CartProductCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 14),
                   ],
                 ),
               ],
@@ -144,7 +165,7 @@ class CartProductCard extends StatelessWidget {
           // DELETE
           Positioned(
             right: 8.0,
-            top: 10.0,
+            top: 20.0,
             child: IconButton(
               splashColor: Colors.grey.shade400,
               onPressed: () {

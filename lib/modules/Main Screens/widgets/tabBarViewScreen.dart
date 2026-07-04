@@ -32,7 +32,6 @@ class TabBarViewScreen extends StatelessWidget {
           height: SizeConfig.screenHeight * 0.36,
           child: Obx(() {
             if (controller.isLoading.value) {
-              
               return Center(child: CircularProgressIndicator());
             }
 
@@ -50,19 +49,20 @@ class TabBarViewScreen extends StatelessWidget {
           }),
         ),
 
-        SizedBox(height: SizeConfig.screenHeight * 0.030),
+        SizedBox(height: 20),
         // LATEST SHOES
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Latest Shoes',
-              style: TypographyPoppins.displayMedium.copyWith(
-                fontSize: SizeConfig.screenHeight * 0.028,
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Text(
+                'Latest Shoes',
+                style: TypographyPoppins.displayMedium.copyWith(fontSize: 25),
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(right: SizeConfig.screenWidth * 0.03),
+              padding: const EdgeInsets.only(right: 10),
               child: InkWell(
                 onTap: () => Get.to(() => ShowAllProduct(shoe: shoe)),
                 child: Row(
@@ -76,10 +76,7 @@ class TabBarViewScreen extends StatelessWidget {
                         fontSize: 16,
                       ),
                     ),
-                    Icon(
-                      Icons.arrow_right_outlined,
-                      size: SizeConfig.screenHeight * 0.035,
-                    ),
+                    const Icon(Icons.arrow_right_outlined, size: 28),
                   ],
                 ),
               ),
@@ -88,7 +85,7 @@ class TabBarViewScreen extends StatelessWidget {
         ),
 
         SizedBox(
-          height: SizeConfig.screenHeight * 0.16,
+          height: 130,
 
           child: Obx(() {
             if (controller.isLoading.value) {

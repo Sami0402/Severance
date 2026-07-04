@@ -40,14 +40,11 @@ class ProductDetail extends StatelessWidget {
               ),
               // PRODUCT IMAGE & CANCEL -- CATEGORY -- FAVOURITE
               Padding(
-                padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.04),
+                padding: EdgeInsets.only(top: 20),
                 child: Stack(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(
-                        top: SizeConfig.screenHeight * 0.030,
-                      ),
-                      height: SizeConfig.screenHeight * 0.32,
+                      margin: EdgeInsets.only(top: 40),
                       width: SizeConfig.screenWidth,
 
                       child: CachedNetworkImage(
@@ -57,8 +54,8 @@ class ProductDetail extends StatelessWidget {
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                        horizontal: SizeConfig.screenWidth * 0.028,
-                        vertical: SizeConfig.screenHeight * 0.009,
+                        horizontal: 16,
+                        vertical: 10,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,25 +65,50 @@ class ProductDetail extends StatelessWidget {
                             onPressed: () {
                               Get.back();
                             },
-                            icon: Icon(
-                              Icons.clear,
-                              size: SizeConfig.screenHeight * 0.028,
-                            ),
+                            icon: Icon(Icons.clear, size: 25),
                           ),
 
                           // FAVOURITE
                           Obx(
                             () => IconButton(
                               onPressed: () async {
-                                controller.toggleLike(shoe);
-                                await ApiService.toggleLike(shoe.id!);
-                                await controller.getWishlist();
+                                final selectedSize = shoe.sizes!
+                                    .where(
+                                      (size) => size.isSelected.value == true,
+                                    )
+                                    .toList();
+
+                                if (selectedSize.isEmpty) {
+                                  Get.snackbar(
+                                    "Size not Selected!!!",
+                                    "Please select size of your shoe!",
+                                    borderColor: Colors.grey,
+                                    borderWidth: 1,
+                                    backgroundColor: Colors.transparent,
+                                  );
+                                } else {
+                                  controller.toggleLike(shoe);
+                                  await ApiService.toggleLike(shoe.id!);
+                                  await controller.getWishlist();
+
+                                  Get.snackbar(
+                                    "Added Into Wishlist!!!",
+                                    "Please checkout your cart",
+                                    icon: Icon(
+                                      CupertinoIcons.heart,
+                                      color: Colors.red,
+                                    ),
+                                    borderColor: Colors.grey,
+                                    borderWidth: 1,
+                                    backgroundColor: Colors.transparent,
+                                  );
+                                }
                               },
                               icon: shoe.isLiked.value == true
                                   ? Icon(
                                       CupertinoIcons.heart_fill,
                                       color: Colors.black54,
-                                      size: SizeConfig.screenHeight * 0.028,
+                                      size: 25,
                                     )
                                   : Icon(
                                       CupertinoIcons.heart,
@@ -94,7 +116,7 @@ class ProductDetail extends StatelessWidget {
                                         alpha: 0.5,
                                       ),
 
-                                      size: SizeConfig.screenHeight * 0.028,
+                                      size: 25,
                                     ),
                             ),
                           ),
@@ -105,9 +127,8 @@ class ProductDetail extends StatelessWidget {
                 ),
               ),
               Positioned(
-                bottom: 0,
+                bottom: 25,
                 child: Container(
-                  height: SizeConfig.screenHeight * 0.64,
                   width: SizeConfig.screenWidth,
                   decoration: BoxDecoration(
                     color: Appcolor.WHITE,
@@ -303,10 +324,31 @@ class ProductDetail extends StatelessWidget {
                                     (size) => size.isSelected.value == true,
                                   )
                                   .toList();
-                              controller.addToCart(
-                                shoe.id!,
-                                selectedSize[0].size!,
-                              );
+                              if (selectedSize.isEmpty) {
+                                Get.snackbar(
+                                  "Size not Selected!!!",
+                                  "Please select size of your shoe!",
+                                  borderColor: Colors.grey,
+                                  borderWidth: 1,
+                                  backgroundColor: Colors.transparent,
+                                );
+                              } else {
+                                controller.addToCart(
+                                  shoe.id!,
+                                  selectedSize[0].size!,
+                                );
+                                Get.snackbar(
+                                  "Added Into Cart!!!",
+                                  "Please checkout your cart",
+                                  icon: Icon(Icons.shopping_basket_outlined),
+                                  borderColor: Colors.white,
+                                  borderWidth: 1,
+                                  backgroundColor: Colors.transparent,
+
+                                  duration: Duration(seconds: 2),
+                                );
+                                selectedSize.clear();
+                              }
                             },
                             text: "Add to bag",
                           ),
