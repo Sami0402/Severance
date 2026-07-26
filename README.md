@@ -1,23 +1,120 @@
-# e_commerce_app
+# Severance
 
-A new Flutter project.
+A full-stack e-commerce shoe store application built with **Flutter**, **Node.js**, **Express.js**, **MongoDB**, and **GetX**. The app provides a clean and minimal shopping experience with secure authentication, wishlist, cart management, and a modern user interface.
+
+---
+
+## Features
+
+- JWT Authentication
+- Browse Shoes
+- Wishlist Management
+- Shopping Cart
+- Shoe Size Selection
+- REST API Integration
+- Minimal & Modern UI
+- Backend Deployed on Render
+
+---
+
+## Tech Stack
+
+### Frontend
+- Flutter
+- GetX
+- SharedPreferences
+- Cached Network Image
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB Atlas
+- JWT Authentication
+- Render
+
+---
+
+# Screenshots
+
+## Authentication
+
+| Login | Register |
+|-------|----------|
+| **Add Screenshot Here** | **Add Screenshot Here** |
+
+<!-- Replace with:
+| ![](screenshots/login.png) | ![](screenshots/register.png) |
+-->
+
+---
+
+## Home
+
+| Home Screen |
+|-------------|
+| **Add Screenshot Here** |
+
+---
+
+## Product Details
+
+| Product Details |
+|-----------------|
+| **Add Screenshot Here** |
+
+---
+
+## Wishlist
+
+| Wishlist |
+|-----------|
+| **Add Screenshot Here** |
+
+---
+
+## Cart
+
+| Cart |
+|------|
+| **Add Screenshot Here** |
+
+---
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Clone the repository
 
-A few resources to get you started if this is your first Flutter project:
+```bash
+git clone https://github.com/your-username/severance.git
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Flutter
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+flutter pub get
+flutter run
+```
 
-// TODO Complete Profile Section
-// TODO Complete Payment Integration (Optional)
-// Refine UI: remove Sizeconfig, add app icon, set splashScreens.
-  
+### Backend
 
+```bash
+npm install
+npm start
+```
 
+---
+
+## Future Improvements
+
+- Order Management
+- Payment Gateway Integration
+- Push Notifications
+- Search & Filters
+- Product Reviews
+- User Profile Management
+
+---
+
+## License
+
+This project is built for learning and portfolio purposes.
