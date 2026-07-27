@@ -12,39 +12,9 @@ A full-stack e-commerce shoe store application built with Flutter, Node.js, Expr
 
 ## App Walkthrough
 
-<p align="center">
+<p align="left">
   <img src="assets/severance-demo.gif" width="300"/>
 </p>
-
----
-
-## Features
-
-- JWT Authentication
-- Browse Shoes
-- Wishlist Management
-- Shopping Cart
-- Shoe Size Selection
-- REST API Integration
-- Minimal & Modern UI
-- Backend Deployed on Render
-
----
-
-## Tech Stack
-
-### Frontend
-- Flutter
-- GetX
-- SharedPreferences
-- Cached Network Image
-
-### Backend
-- Node.js
-- Express.js
-- MongoDB Atlas
-- JWT Authentication
-- Render
 
 ---
 
@@ -96,6 +66,36 @@ A full-stack e-commerce shoe store application built with Flutter, Node.js, Expr
     </td>
   </tr>
 </table>
+
+## Features
+
+- JWT Authentication
+- Browse Shoes
+- Wishlist Management
+- Shopping Cart
+- Shoe Size Selection
+- REST API Integration
+- Minimal & Modern UI
+- Backend Deployed on Render
+
+---
+
+## Tech Stack
+
+### Frontend
+- Flutter
+- GetX
+- SharedPreferences
+- Cached Network Image
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB Atlas
+- JWT Authentication
+- Render
+
+---
 
 ## Getting Started
 
