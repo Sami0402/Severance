@@ -1,6 +1,11 @@
+import 'package:e_commerce_app/controllers/Auth_controller/auth_controller.dart';
 import 'package:e_commerce_app/controllers/main_screen_controller.dart';
+import 'package:e_commerce_app/modules/Main%20Screens/privacy_policy_screen.dart';
 import 'package:e_commerce_app/utils/constants/typography.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -9,7 +14,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
-    // final MainScreenController controller = Get.find<MainScreenController>();
+    final MainScreenController controller = Get.find<MainScreenController>();
 
     return Scaffold(
       body: SafeArea(
@@ -50,7 +55,7 @@ class ProfileScreen extends StatelessWidget {
                               children: [
                                 // NAME
                                 Text(
-                                  "Sami Khan",
+                                  "${MainScreenController.firstName}",
                                   style: TypographyPoppins.displayMedium,
                                 ),
                                 // NUMBER
@@ -87,7 +92,7 @@ class ProfileScreen extends StatelessWidget {
                           style: TypographyPoppins.displayMedium,
                         ),
                         trailing: IconButton(
-                          onPressed: () {},
+                          onPressed: () => Get.to(() => PrivacyPolicyScreen()),
                           icon: Icon(Icons.arrow_forward_ios_rounded),
                         ),
                       ),
@@ -101,7 +106,9 @@ class ProfileScreen extends StatelessWidget {
                           style: TypographyPoppins.displayMedium,
                         ),
                         trailing: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.find<AuthController>().logout();
+                          },
                           icon: Icon(Icons.arrow_forward_ios_rounded),
                         ),
                       ),

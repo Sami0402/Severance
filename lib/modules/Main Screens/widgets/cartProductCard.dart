@@ -62,11 +62,13 @@ class CartProductCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: 200,
+                      width: 180,
                       child: Text(
                         shoe.name!,
                         maxLines: 1,
+                        overflow: TextOverflow.clip,
                         style: TypographyPoppins.displaySmall.copyWith(
+                          fontSize: 16,
                           color: Appcolor.GREY,
                           // overflow: TextOverflow.ellipsis,
                         ),
@@ -105,13 +107,12 @@ class CartProductCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          // "\$${shoe.price!.toString()}",
                           "\$$totalPrice",
                           style: TypographyPoppins.displaySmall.copyWith(
                             fontSize: 18,
                           ),
                         ),
-                        SizedBox(width: 75),
+                        SizedBox(width: 40),
                         Container(
                           height: 35,
                           decoration: BoxDecoration(
@@ -164,14 +165,14 @@ class CartProductCard extends StatelessWidget {
           ),
           // DELETE
           Positioned(
-            right: 8.0,
+            right: 4.0,
             top: 20.0,
             child: IconButton(
               splashColor: Colors.grey.shade400,
               onPressed: () {
                 controller.deleteCartItem(shoe.id!, shoe.selectedSize!);
               },
-              icon: Icon(CupertinoIcons.delete_simple, size: 18),
+              icon: Icon(CupertinoIcons.delete_simple, size: 15),
             ),
           ),
         ],

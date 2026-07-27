@@ -17,7 +17,7 @@ samples, guidance on mobile development, and a full API reference.
 
 // TODO Complete Profile Section
 // TODO Complete Payment Integration (Optional)
-// Refine UI: remove Sizeconfig, add app icon, set splashScreens.
+
   
 
 

@@ -6,7 +6,13 @@ import 'package:get/get_instance/get_instance.dart';
 class InitialBindings extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<MainScreenController>(() => MainScreenController());
-    Get.put<AuthController>(AuthController());
+    if  (!Get.isRegistered<MainScreenController>()) {
+      Get.lazyPut<MainScreenController>(() => MainScreenController());
+    } 
+    
+   if (!Get.isRegistered<AuthController>()) {
+     Get.lazyPut<AuthController>(() => AuthController());
+
+   }
   }
 }

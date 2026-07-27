@@ -166,12 +166,13 @@ class FavProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: 180,
+                    width: 150,
                     child: Text(
                       shoe.name!,
 
                       maxLines: 2,
                       style: TypographyPoppins.displaySmall.copyWith(
+                        fontSize: 16,
                         color: Appcolor.GREY,
                         height: 1.1,
                       ),

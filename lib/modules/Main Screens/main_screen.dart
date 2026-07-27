@@ -16,6 +16,7 @@ class MainScreen extends StatelessWidget {
     final MainScreenController controller = Get.find<MainScreenController>();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Stack(
           children: [
@@ -23,7 +24,6 @@ class MainScreen extends StatelessWidget {
               height: MediaQuery.sizeOf(context).height,
               width: MediaQuery.sizeOf(context).width,
               child: PageView(
-                
                 scrollDirection: Axis.horizontal,
                 controller: controller.pageController,
                 onPageChanged: controller.changePage,
@@ -47,8 +47,6 @@ class MainScreen extends StatelessWidget {
           ],
         ),
       ),
-      
     );
-
   }
 }

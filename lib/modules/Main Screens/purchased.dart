@@ -32,7 +32,7 @@ class PurchasedScreen extends StatelessWidget {
                   Text("Thank You!", style: TypographyPoppins.displayLarge),
                   SizedBox(height: 10),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 105.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 90.0),
                     child: solidTextButton(
                       text: 'Go Back Home',
                       onPressed: () => {

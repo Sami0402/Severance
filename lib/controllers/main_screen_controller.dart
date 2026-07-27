@@ -71,6 +71,9 @@ class MainScreenController extends GetxController
   static late SharedPreferences prefs;
   static late String? token;
   static late String? email;
+  static late String? firstName;
+
+
 
   static Future<void> getCurrentUser() async {
     prefs = await SharedPreferences.getInstance();
@@ -78,7 +81,8 @@ class MainScreenController extends GetxController
     token = prefs.getString("token");
 
     email = prefs.getString("email");
-    print(email);
+
+    firstName = prefs.getString("firstName");
 
   }
 
@@ -208,7 +212,7 @@ class MainScreenController extends GetxController
 
       CartModel model = CartModel.fromJson(result);
 
-      cartItems.value = model.cart!;
+      cartItems.value = model.cart ?? [];
     } catch (e) {
       throw Exception(e);
     }
@@ -323,9 +327,10 @@ class MainScreenController extends GetxController
 
   @override
   void onClose() {
+    
     selectedIndex.close();
     pageController.dispose();
-    selectedIndex.close();
+
     shoeList.close();
     selectedBrand.close();
     menShoes.clear();
