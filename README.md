@@ -36,49 +36,52 @@ A full-stack e-commerce shoe store application built with **Flutter**, **Node.js
 
 # Screenshots
 
-## Authentication
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="screenshots/login.jpg" width="220"/><br>
+      <b>Login</b>
+    </td>
+    <td align="center">
+      <img src="screenshots/register.jpg" width="220"/><br>
+      <b>Register</b>
+    </td>
+    <td align="center">
+      <img src="screenshots/home.jpg" width="220"/><br>
+      <b>Home</b>
+    </td>
+  </tr>
 
-| Login | Register |
-|-------|----------|
-| **Add Screenshot Here** | **Add Screenshot Here** |
-
-<!-- Replace with:
-| ![](screenshots/login.png) | ![](screenshots/register.png) |
--->
-
----
-
-## Home
-
-| Home Screen |
-|-------------|
-| **Add Screenshot Here** |
-
----
-
-## Product Details
-
-| Product Details |
-|-----------------|
-| **Add Screenshot Here** |
-
----
-
-## Wishlist
-
-| Wishlist |
-|-----------|
-| **Add Screenshot Here** |
-
----
-
-## Cart
-
-| Cart |
-|------|
-| **Add Screenshot Here** |
-
----
+  <tr>
+    <td align="center">
+      <img src="screenshots/all_product.jpg" width="220"/><br>
+      <b>All Products</b>
+    </td>
+    <td align="center">
+      <img src="screenshots/product_detail.jpg" width="220"/><br>
+      <b>Product Detail</b>
+    </td>
+    <td align="center">
+      <img src="screenshots/search.jpg" width="220"/><br>
+      <b>Search</b>
+    </td>
+  </tr>
+  
+  <tr>
+    <td align="center">
+      <img src="screenshots/search_filter.jpg" width="220"/><br>
+      <b>Search Filter</b>
+    </td>
+    <td align="center">
+      <img src="screenshots/favourite.jpg" width="220"/><br>
+      <b>Wishlist</b>
+    </td>
+    <td align="center">
+      <img src="screenshots/cart.jpg" width="220"/><br>
+      <b>Cart</b>
+    </td>
+  </tr>
+</table>
 
 ## Getting Started
 
@@ -109,7 +112,6 @@ npm start
 - Order Management
 - Payment Gateway Integration
 - Push Notifications
-- Search & Filters
 - Product Reviews
 - User Profile Management
 
