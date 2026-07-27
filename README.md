@@ -1,6 +1,20 @@
 # Severance
 
-A full-stack e-commerce shoe store application built with **Flutter**, **Node.js**, **Express.js**, **MongoDB**, and **GetX**. The app provides a clean and minimal shopping experience with secure authentication, wishlist, cart management, and a modern user interface.
+<p align="center">
+  <img src="assets/app_icon.png" width="180"/>
+</p>
+
+<p align="center">
+A full-stack e-commerce shoe store application built with Flutter, Node.js, Express.js, MongoDB, and GetX.
+</p>
+
+---
+
+## App Walkthrough
+
+<p align="center">
+  <img src="assets/severance-demo.gif" width="300"/>
+</p>
 
 ---
 
